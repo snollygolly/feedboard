@@ -1,7 +1,7 @@
 {
-  "name": "koa-starter",
+  "name": "feedboard",
   "version": "1.0.0",
-  "description": "A starter kit for a slightly opinionated koa project.",
+  "description": "A billboard for displaying activity feeds",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -9,21 +9,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/snollygolly/koa-starter.git"
+    "url": "git+https://github.com/snollygolly/feedboard.git"
   },
   "keywords": [
     "koa",
-    "starter",
-    "starter-kit",
     "handlebars",
     "passport"
   ],
   "author": "snollygolly (@snollygolly)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/snollygolly/koa-starter/issues"
+    "url": "https://github.com/snollygolly/feedboard/issues"
   },
-  "homepage": "https://github.com/snollygolly/koa-starter#readme",
+  "homepage": "https://github.com/snollygolly/feedboard#readme",
   "dependencies": {
     "co": "^4.6.0",
     "koa": "^1.1.2",
