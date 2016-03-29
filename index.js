@@ -2,16 +2,29 @@
 
 const config = require("./config.json");
 
-const koa = require("koa");
 const hbs = require("koa-hbs");
 const serve = require("koa-static-folder");
-
 // for passport support
 const session = require("koa-generic-session");
 const bodyParser = require("koa-bodyparser");
 const passport = require("koa-passport");
 
-const app = koa();
+const Koa = require("koa");
+const app = new Koa();
+
+// socket stuff
+const KoaSocket = require("koa-socket");
+const io = new KoaSocket();
+
+io.attach(app);
+
+io.on("connection", (ctx, data) => {
+	console.log("join event fired", data);
+});
+
+io.on("disconnect", (ctx, data) => {
+	console.log("leave event fired", data);
+});
 
 exports.app = app;
 exports.passport = passport;
@@ -43,7 +56,7 @@ app.use(serve("./assets"));
 app.use(hbs.middleware({
 	viewPath: `${__dirname}/views`,
 	layoutsPath: `${__dirname}/views/layouts`,
-	partialsPath: `${__dirname}/partials`,
+	partialsPath: `${__dirname}/views/partials`,
 	defaultLayout: "main"
 }));
 
