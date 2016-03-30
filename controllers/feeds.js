@@ -3,6 +3,7 @@
 const config = require("../config.json");
 
 const model = require("../models/feeds.js");
+const socket = require("./sockets");
 
 module.exports.process = function* process() {
 	this.state.api = true;
@@ -14,5 +15,11 @@ module.exports.process = function* process() {
 	}
 	// the plugin they are trying to use is available, let's send it over
 	const result = yield model.process(provider, this.request.body);
+	// if there's an error, just return it
+	if (result.error === true) {
+		return this.body = result;
+	}
+	// there wasn't an error, so send out a socket event
+	socket.update("test");
 	return this.body = {error: false, message: result};
 };

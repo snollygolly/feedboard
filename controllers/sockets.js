@@ -21,3 +21,8 @@ io.on("update", (ctx, data) => {
 io.on("disconnect", (ctx, data) => {
 	console.log("leave event fired", data);
 });
+
+module.exports.update = function update(data) {
+	// Broadcasts to all other connections
+	io.broadcast("update", data);
+};
