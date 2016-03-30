@@ -4,9 +4,6 @@ html {
 }
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 50px;
-  padding-top: 50px;
-}
-.template-heading {
-  padding: 40px 15px;
+  margin-bottom: 10px;
+  padding-top: 10px;
 }

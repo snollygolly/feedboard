@@ -12,7 +12,7 @@ const feeds = require("./controllers/feeds.js");
 
 // routes
 routes.get("/", function* get() {
-	yield this.render("index", {title: config.site.name});
+	yield this.render("index", {title: config.site.name, script: "feeds"});
 });
 
 routes.post("/feeds/:provider", feeds.process);
