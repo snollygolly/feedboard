@@ -7,7 +7,6 @@ const serve = require("koa-static-folder");
 // for passport support
 const session = require("koa-generic-session");
 const bodyParser = require("koa-bodyparser");
-const passport = require("koa-passport");
 
 const Koa = require("koa");
 const app = new Koa();
@@ -19,13 +18,9 @@ const io = new KoaSocket();
 io.attach(app);
 
 exports.app = app;
-exports.passport = passport;
 
 // for all socket interations
 require("./controllers/sockets");
-
-// the auth model for passport support
-require("./models/auth");
 
 // misc handlebars helpers
 require("./helpers/handlebars");
@@ -40,10 +35,6 @@ app.use(session());
 // body parser
 app.use(bodyParser());
 
-// authentication
-app.use(passport.initialize());
-app.use(passport.session());
-
 // statically serve assets
 app.use(serve("./assets"));
 
@@ -55,13 +46,21 @@ app.use(hbs.middleware({
 	defaultLayout: "main"
 }));
 
-app.use(function* handleError(next) {
+app.use(function* appUse(next) {
 	try {
 		yield next;
 	} catch (err) {
-		this.status = err.status || 500;
-		this.body = err.message;
-		this.app.emit("error", err, this);
+		if (this.state.api === true) {
+			// if this was an API request, send the error back in a plain response
+			this.app.emit("error", err, this);
+			this.body = {error: true, message: String(err)};
+		} else {
+			// this wasn"t an API request, show the error page
+			this.app.emit("error", err, this);
+			yield this.render("error", {
+				dump: err
+			});
+		}
 	}
 });
 

@@ -10,6 +10,9 @@
         "clientSecret": "OAUTH CLIENT SECRET FOR GITHUB"
       }
     },
+		"plugins": [
+			"github"
+		],
     "analytics": "UA-00000000-0"
   },
   "deploy":{
