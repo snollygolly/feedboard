@@ -11,10 +11,22 @@ module.exports.process = (header, data) => {
 };
 
 const githubProcessing = {
+	create: (data) => {
+		return {
+			title: `Github: ${data.repository.full_name} was created!`,
+			content: data.description
+		};
+	},
 	ping: (data) => {
 		return {
 			title: `Github: ${data.repository.full_name} was set up!`,
 			content: data.zen
+		};
+	},
+	pull_request: (data) => {
+		return {
+			title: `Github: Pull request #${data.number} was ${data.action} in ${data.pull_request.head.repo.full_name}!`,
+			content: data.pull_request.title
 		};
 	},
 	push: (data) => {
