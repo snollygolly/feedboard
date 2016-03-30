@@ -40,5 +40,5 @@ function buildPanel(title, content) {
 	$(panelDiv).append(panelHeading);
 	$(panelDiv).append(panelBody);
 	// append the panel
-	$("#feed-container").append(panelDiv);
+	$("#feed-container").prepend(panelDiv);
 }

@@ -14,7 +14,7 @@ module.exports.process = function* process() {
 		return this.body = {error: true, message: "Provider not supported"};
 	}
 	// the plugin they are trying to use is available, let's send it over
-	const result = yield model.process(provider, this.request.body);
+	const result = model.process(provider, this.request.header, this.request.body);
 	// if there's an error, just return it
 	if (result.error === true) {
 		return this.body = result;
