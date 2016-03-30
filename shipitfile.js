@@ -9,7 +9,7 @@ module.exports = function (shipit) {
     default: {
       workspace: 'tmp',
       deployTo: config.deploy.path,
-      repositoryUrl: 'https://github.com/snollygolly/koa-starter.git',
+      repositoryUrl: 'https://github.com/snollygolly/feedboard.git',
       ignores: ['.git', 'node_modules'],
       rsync: ['--del'],
       keepReleases: 2,
@@ -23,7 +23,7 @@ module.exports = function (shipit) {
 
   // this task runs an NPM install remotely to install dependencies
   shipit.blTask('install', function () {
-    return shipit.remote(pathStr + " && cd " + currentPath + " && npm install &> /dev/null");
+    return shipit.remote(pathStr + " && cd " + currentPath + " && npm install --production &> /dev/null");
   });
 
   // this task starts the server in a screen with a name set in the config

@@ -1,24 +1,17 @@
 {
-  "site":{
-    "port": 5001,
-    "name": "FeedBoard",
-    "secret": "feedboard-is-billboards-for-feeds",
-    "oauth": {
-      "host": "http://127.0.0.1",
-      "github": {
-        "clientID": "OAUTH CLIENT ID FOR GITHUB",
-        "clientSecret": "OAUTH CLIENT SECRET FOR GITHUB"
-      }
-    },
+	"site":{
+		"port": 5001,
+		"name": "FeedBoard",
+		"secret": "feedboard-is-billboards-for-feeds",
 		"plugins": [
 			"github"
 		],
-    "analytics": "UA-00000000-0"
-  },
-  "deploy":{
-    "username": "YOUR USERNAME",
-    "hostname": "YOUR HOSTNAME",
-    "path": "~/FeedBoard",
-    "screen": "feedboard"
-  }
+		"analytics": "UA-00000000-0"
+	},
+	"deploy":{
+		"username": "YOUR USERNAME",
+		"hostname": "YOUR HOSTNAME",
+		"path": "~/FeedBoard",
+		"screen": "feedboard"
+	}
 }
