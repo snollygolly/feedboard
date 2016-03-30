@@ -5,7 +5,6 @@ module.exports.process = (header, data) => {
 	// TODO: check for hash correctness
 	// assume all checks have passed here
 	const returnObj = githubProcessing[header["x-github-event"]](data);
-	console.log(returnObj);
 	returnObj.error = false;
 	// send it back
 	return returnObj;
