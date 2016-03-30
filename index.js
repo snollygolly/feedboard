@@ -18,16 +18,11 @@ const io = new KoaSocket();
 
 io.attach(app);
 
-io.on("connection", (ctx, data) => {
-	console.log("join event fired", data);
-});
-
-io.on("disconnect", (ctx, data) => {
-	console.log("leave event fired", data);
-});
-
 exports.app = app;
 exports.passport = passport;
+
+// for all socket interations
+require("./controllers/sockets");
 
 // the auth model for passport support
 require("./models/auth");
