@@ -20,6 +20,6 @@ module.exports.process = function* process() {
 		return this.body = result;
 	}
 	// there wasn't an error, so send out a socket event
-	socket.update("test");
-	return this.body = {error: false, message: result};
+	socket.update(result);
+	return this.body = result;
 };

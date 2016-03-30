@@ -7,8 +7,12 @@ $(document).ready(function() {
 
 	// for updates
 	socket.on('update', function(data){
-		buildPanel("title", data);
-		console.log(data);
+		if (data.error === false) {
+			buildPanel(data.title, data.content);
+		}else{
+			console.log("error: " + data.message);
+			console.log(data);
+		}
 	});
 });
 
