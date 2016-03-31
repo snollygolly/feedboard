@@ -5,7 +5,8 @@
 		"secret": "feedboard-is-billboards-for-feeds",
 		"plugins": [
 			"github",
-			"pivotal"
+			"pivotal",
+			"slack"
 		],
 		"analytics": "UA-00000000-0"
 	},
