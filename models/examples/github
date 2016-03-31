@@ -1,5 +1,6 @@
 curl -i -X POST \
    -H "Content-Type:application/json" \
+   -H "X-GitHub-Event:push" \
    -d \
 '{
   "ref": "refs/heads/changes",

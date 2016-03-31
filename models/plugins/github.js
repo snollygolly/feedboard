@@ -22,7 +22,7 @@ const githubProcessing = {
 	ping: (data) => {
 		return {
 			title: `${data.repository.full_name} was set up!`,
-			content: data.zen
+			content: `Moment of Zen: ${data.zen}`
 		};
 	},
 	pull_request: (data) => {

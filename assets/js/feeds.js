@@ -53,6 +53,6 @@ function buildPanel(data) {
 	$(panelDiv).append(panelHeading);
 	$(panelBody).prepend(panelAvatar);
 	$(panelDiv).append(panelBody);
-	// append the panel
-	$("#feed-container").prepend(panelDiv);
+	// prepend the panel
+	$(panelDiv).hide().prependTo("#feed-container").fadeIn(1000);
 }
