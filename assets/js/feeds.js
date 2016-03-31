@@ -33,7 +33,7 @@ function buildPanel(data) {
 	// build the timestamp
 	var panelTime = document.createElement("h6");
 	$(panelTime).addClass("pull-right");
-	$(panelTime).html(data.timestamp);
+	$(panelTime).html(moment.unix(data.timestamp).format("MMMM Do YYYY, h:mm:ss a"));
 	// build the actual title
 	var panelTitle = document.createElement("p");
 	$(panelTitle).addClass("panel-title");

@@ -1,4 +1,4 @@
-# :ledger: feedboard
+# :bird: feedboard
 A billboard for showing activity feeds
 
 ## Description
