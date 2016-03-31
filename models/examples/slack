@@ -1,0 +1,13 @@
+curl -i -X POST \
+   -H "Content-Type:application/x-www-form-urlencoded" \
+   -d "token=xxxxxxxxxxx" \
+   -d "team_id=T0001" \
+   -d "team_domain=example" \
+   -d "channel_id=C2147483705" \
+   -d "channel_name=test" \
+   -d "timestamp=1355517523.000005" \
+   -d "user_id=U2147483697" \
+   -d "user_name=Steve" \
+   -d "text=announce There is free cookies at a place." \
+   -d "trigger_word=announce" \
+ 'http://127.0.0.1:5001/feeds/slack'
