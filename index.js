@@ -15,6 +15,11 @@ const app = new Koa();
 const KoaSocket = require("koa-socket");
 const io = new KoaSocket();
 
+// react stuff
+const webpack = require("webpack");
+const webpackConfig = require("./webpack.config.js");
+const WebpackDevServer = require("webpack-dev-server");
+
 io.attach(app);
 
 exports.app = app;
@@ -39,12 +44,13 @@ app.use(bodyParser());
 app.use(serve("./assets"));
 
 // load up the handlebars middlewear
-app.use(hbs.middleware({
-	viewPath: `${__dirname}/views`,
-	layoutsPath: `${__dirname}/views/layouts`,
-	partialsPath: `${__dirname}/views/partials`,
-	defaultLayout: "main"
-}));
+// app.use(hbs.middleware({
+// 	viewPath: `${__dirname}/views`,
+// 	layoutsPath: `${__dirname}/views/layouts`,
+// 	partialsPath: `${__dirname}/views/partials`,
+// 	defaultLayout: "main"
+// }));
+app.use(serve("./build"));
 
 app.use(function* appUse(next) {
 	try {
@@ -68,6 +74,20 @@ require("./routes");
 
 console.log(`${config.site.name} is now listening on port ${config.site.port}`);
 app.listen(config.site.port);
+
+// WEBPACK DEV SERVER
+new WebpackDevServer(webpack(webpackConfig), {
+	"hot": true,
+	"historyApiFallback": true,
+	proxy: {
+		"*": `http://localhost:${config.site.port}`
+	}
+}).listen(config.site.port + 1, "localhost", function webpackDevServer(err, result) {
+	if (err) {
+		console.log(err);
+	}
+	console.log(`Webpack Dev Server (Hot-Reload) listening on port ${config.site.port + 1}`);
+});
 
 process.on("SIGINT", function end() {
 	process.exit();
