@@ -18,7 +18,7 @@ module.exports.process = function* process() {
 	// the plugin they are trying to use is available, let's send it over
 	const result = model.process(provider, this.request.header, this.request.body);
 	// set the time on it
-	result.timestamp = moment().format("MMMM Do YYYY, h:mm:ss a");
+	result.timestamp = moment().unix();
 	// if there's an error, just return it
 	if (result.error === true) {
 		return this.body = result;
