@@ -7,6 +7,7 @@ module.exports.process = (header, data) => {
 	const returnObj = githubProcessing[header["x-github-event"]](data);
 	returnObj.error = false;
 	returnObj.icon = "fa-github";
+	returnObj.avatar = data.sender.avatar_url;
 	// send it back
 	return returnObj;
 };

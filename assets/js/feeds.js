@@ -38,6 +38,10 @@ function buildPanel(data) {
 	var panelTitle = document.createElement("p");
 	$(panelTitle).addClass("panel-title");
 	$(panelTitle).html("&nbsp;&nbsp;&nbsp;" + data.title);
+	// build the avatar
+	var panelAvatar = document.createElement("img");
+	$(panelAvatar).addClass("panel-avatar");
+	$(panelAvatar).attr("src", data.avatar);
 	// build the body
 	var panelBody = document.createElement("div");
 	$(panelBody).addClass("panel-body");
@@ -47,6 +51,7 @@ function buildPanel(data) {
 	$(panelHeading).append(panelTime);
 	$(panelHeading).append(panelTitle);
 	$(panelDiv).append(panelHeading);
+	$(panelBody).prepend(panelAvatar);
 	$(panelDiv).append(panelBody);
 	// append the panel
 	$("#feed-container").prepend(panelDiv);

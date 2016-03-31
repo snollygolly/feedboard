@@ -7,3 +7,9 @@ body {
   margin-bottom: 10px;
   padding-top: 10px;
 }
+
+.panel-avatar {
+	height: 5em;
+	width: 5em;
+	padding: .5em;
+}
