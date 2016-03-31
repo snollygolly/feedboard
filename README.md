@@ -17,7 +17,7 @@ __Feedboard__ is a web application that can be used in a kiosk setting to show l
 git clone https://github.com/snollygolly/feedboard.git
 ```
 
-* Install node packages (from inside the paw-wars folder).
+* Install node packages (from inside the feedboard folder).
 ```
 npm install
 ```
