@@ -33,7 +33,7 @@ const githubProcessing = {
 	},
 	push: (data) => {
 		return {
-			title: `${data.head_commit.author.name} performed a push to ${data.repository.name}`,
+			title: `${data.head_commit.author.name} performed a push to ${data.repository.full_name}`,
 			content: data.head_commit.message
 		};
 	}
