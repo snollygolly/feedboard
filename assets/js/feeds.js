@@ -29,7 +29,7 @@ function buildPanel(data) {
 	$(panelHeading).addClass("panel-heading");
 	// build the icon
 	var panelIcon = document.createElement("span");
-	$(panelIcon).addClass("fa-2x fa " + data.icon);
+	$(panelIcon).addClass("fa-lg fa " + data.icon);
 	// build the timestamp
 	var panelTime = document.createElement("h6");
 	$(panelTime).addClass("pull-right");

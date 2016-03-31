@@ -4,7 +4,8 @@
 		"name": "FeedBoard",
 		"secret": "feedboard-is-billboards-for-feeds",
 		"plugins": [
-			"github"
+			"github",
+			"pivotal"
 		],
 		"analytics": "UA-00000000-0"
 	},
