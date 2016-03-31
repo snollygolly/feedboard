@@ -8,7 +8,7 @@ $(document).ready(function() {
 	// for updates
 	socket.on('update', function(data){
 		if (data.error === false) {
-			buildPanel(data.title, data.content);
+			buildPanel(data);
 		}else{
 			console.log("error: " + data.message);
 			console.log(data);
@@ -20,22 +20,31 @@ function clearFeed() {
 	$("#feed-container").empty();
 }
 
-function buildPanel(title, content) {
+function buildPanel(data) {
 	// build the main panel container
 	var panelDiv = document.createElement("div");
 	$(panelDiv).addClass("feed-panel panel panel-default");
 	// build the heading container
 	var panelHeading = document.createElement("div");
 	$(panelHeading).addClass("panel-heading");
+	// build the icon
+	var panelIcon = document.createElement("span");
+	$(panelIcon).addClass("fa-2x fa " + data.icon);
+	// build the timestamp
+	var panelTime = document.createElement("h6");
+	$(panelTime).addClass("pull-right");
+	$(panelTime).html(data.timestamp);
 	// build the actual title
-	var panelTitle = document.createElement("h3");
+	var panelTitle = document.createElement("p");
 	$(panelTitle).addClass("panel-title");
-	$(panelTitle).html(title);
+	$(panelTitle).html("&nbsp;&nbsp;&nbsp;" + data.title);
 	// build the body
 	var panelBody = document.createElement("div");
 	$(panelBody).addClass("panel-body");
-	$(panelBody).html(content);
+	$(panelBody).html(data.content);
 	// start attaching elements to each othe
+	$(panelTitle).prepend(panelIcon);
+	$(panelHeading).append(panelTime);
 	$(panelHeading).append(panelTitle);
 	$(panelDiv).append(panelHeading);
 	$(panelDiv).append(panelBody);
