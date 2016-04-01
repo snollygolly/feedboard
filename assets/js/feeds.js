@@ -16,7 +16,7 @@ $(document).ready(function() {
 		try{
 			data = JSON.parse(data);
 			while (data && data.length > 0){
-				buildPanel(data.shift());
+				buildPanel(data.pop());
 			}
 		}catch(err){
 			console.log("error: " + data.message);
