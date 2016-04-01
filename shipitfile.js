@@ -58,7 +58,7 @@ module.exports = function (shipit) {
 
   shipit.on('deployed', function () {
     // this series of tasks will result in a good deploy assuming everything is \working
-    shipit.start( 'kill_screen', 'npm_install', 'bower_install', 'webpack_build', 'install_local_config', 'start_screen');
+    shipit.start( 'kill_screen', 'install_local_config', 'npm_install', 'bower_install', 'webpack_build', 'start_screen');
     // if you're having problems with the deploy being successful, but not actually starting the server, try this:
     //shipit.start('kill_screen', 'install', 'install_config', 'start_session');
   });
