@@ -1,0 +1,36 @@
+{
+  "name": "feedboard",
+  "description": "A billboard for displaying activity feeds",
+  "main": "index.js",
+  "authors": [
+    "snollygolly (@snollygolly)"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "koa",
+    "handlebars",
+    "passport"
+  ],
+  "homepage": "https://github.com/snollygolly/feedboard",
+  "moduleType": [
+    "es6",
+    "node"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "assets/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "v4.0.0-alpha.2",
+    "font-awesome": "^4.5.0",
+    "bootstrap-social": "^4.12.0",
+    "jquery": "^2.2.2",
+    "tether": "^1.2.0",
+    "remarkable": "^1.6.2"
+  }
+}

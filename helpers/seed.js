@@ -9,9 +9,9 @@ co(function* coWrap() {
 
 	try {
 		yield r.dbCreate(config.site.db.db).run(connection);
-		console.log(`Databse '${config.site.db.db}' created successfully.`);
+		console.log(`Database '${config.site.db.db}' created successfully.`);
 	} catch (err) {
-		console.log(`Warning! ${err.msg}`);
+		console.log(`Warning! ${err}`);
 	}
 
 	try {
@@ -23,7 +23,7 @@ co(function* coWrap() {
 		console.log("Table 'activity' indexes created successfully.");
 
 	} catch (err) {
-		console.log(`Warning! ${err.msg}`);
+		console.log(`Warning! ${err}`);
 	}
 
 	yield connection.close();
