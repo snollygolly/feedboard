@@ -14,6 +14,9 @@
 			"port": 28015,
 			"authKey": "",
 			"db": "feedboard"
+		},
+		"options": {
+			"results_on_bootstrap": 25
 		}
 	},
 	"deploy":{

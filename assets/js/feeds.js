@@ -4,7 +4,20 @@ $(document).ready(function() {
 	clearFeed();
 
 	var socket = io();
+	socket.emit("bootstrap", "go");
 
+	// for bootstrapping the data (or maybe just refreshing?)
+	socket.on('bootstrap', function(data){
+		try{
+			data = JSON.parse(data);
+			while (data){
+				buildPanel(data.shift());
+			}
+		}catch(err){
+			console.log("error: " + data.message);
+			console.log(data);
+		}
+	});
 	// for updates
 	socket.on('update', function(data){
 		if (data.error === false) {
@@ -33,7 +46,7 @@ function buildPanel(data) {
 	// build the timestamp
 	var panelTime = document.createElement("h6");
 	$(panelTime).addClass("pull-right");
-	$(panelTime).html(moment.unix(data.id).format("MMMM Do YYYY, h:mm:ss a"));
+	$(panelTime).html(moment(data.timestamp).format("MMMM Do YYYY, h:mm:ss a"));
 	// build the actual title
 	var panelTitle = document.createElement("p");
 	$(panelTitle).addClass("panel-title");

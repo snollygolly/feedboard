@@ -21,8 +21,9 @@ module.exports.process = function* process(provider, header, data) {
 	return result;
 };
 
-module.exports.getItems = (count) => {
-	// gets the latest [count] items
+module.exports.getItems = function* getItems(limit) {
+	const results = yield getRecentActivites(limit);
+	return results;
 };
 
 module.exports.getItem = (id) => {
@@ -44,7 +45,7 @@ function* createActivity(activity) {
 	// set up the connection
 	yield createConnection();
 	// set the time on it
-	activity.id = moment().unix();
+	activity.timestamp = moment().valueOf();
 	// write to the db
 	const result = yield r.table("activity").insert(activity, {returnChanges: true}).run(connection);
 	connection.close();
@@ -61,4 +62,16 @@ function* getActivity(id) {
 	}
 	connection.close();
 	return result;
+}
+
+function* getRecentActivites(limit) {
+	// set up the connection
+	yield createConnection();
+	// check to see if the document exists
+	const results = yield r.db("feedboard").table("activity").orderBy("timestamp").limit(limit).run(connection);
+	if (results === null) {
+		throw new Error("Activity not found / feedModel.getRecentActivites");
+	}
+	connection.close();
+	return results;
 }
