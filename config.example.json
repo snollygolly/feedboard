@@ -5,9 +5,19 @@
 		"secret": "feedboard-is-billboards-for-feeds",
 		"plugins": [
 			"github",
-			"pivotal"
+			"pivotal",
+			"slack"
 		],
-		"analytics": "UA-00000000-0"
+		"analytics": "UA-00000000-0",
+		"db": {
+			"host": "localhost",
+			"port": 28015,
+			"authKey": "",
+			"db": "feedboard"
+		},
+		"options": {
+			"results_on_bootstrap": 25
+		}
 	},
 	"deploy":{
 		"username": "YOUR USERNAME",
