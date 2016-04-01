@@ -68,7 +68,7 @@ function* getRecentActivites(limit) {
 	// set up the connection
 	yield createConnection();
 	// check to see if the document exists
-	const results = yield r.db("feedboard").table("activity").orderBy("timestamp").limit(limit).run(connection);
+	const results = yield r.db("feedboard").table("activity").orderBy({index: "timestamp"}).limit(limit).run(connection);
 	if (results === null) {
 		throw new Error("Activity not found / feedModel.getRecentActivites");
 	}

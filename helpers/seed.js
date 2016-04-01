@@ -17,6 +17,11 @@ co(function* coWrap() {
 	try {
 		yield r.db(config.site.db.db).tableCreate("activity").run(connection);
 		console.log("Table 'activity' created successfully.");
+		// create the secondary indexes
+		yield r.db(config.site.db.db).table("activity").indexCreate("timestamp").run(connection);
+		yield r.db(config.site.db.db).table("activity").indexCreate("provider").run(connection);
+		console.log("Table 'activity' indexes created successfully.");
+
 	} catch (err) {
 		console.log(`Warning! ${err.msg}`);
 	}
