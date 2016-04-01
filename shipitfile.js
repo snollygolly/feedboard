@@ -31,6 +31,11 @@ module.exports = function (shipit) {
     return shipit.remote(pathStr + " && cd " + currentPath + " && bower install --production &> /dev/null");
   });
 
+  // this task builds the React components with webpack
+  shipit.blTask('webpack_build', function () {
+    return shipit.remote(pathStr + " && cd " + currentPath + " && npm run build &> /dev/null");
+  });
+
   // this task starts the server in a screen with a name set in the config
   shipit.blTask('start_screen', function () {
     return shipit.remote(pathStr + " && cd " + currentPath + " && screen -S " + config.deploy.screen + " -d -m npm run production");
@@ -58,7 +63,7 @@ module.exports = function (shipit) {
 
   shipit.on('deployed', function () {
     // this series of tasks will result in a good deploy assuming everything is \working
-    shipit.start( 'kill_screen', 'npm_install', 'bower_install', 'install_local_config', 'start_screen');
+    shipit.start( 'kill_screen', 'npm_install', 'bower_install', 'webpack_build', 'install_local_config', 'start_screen');
     // if you're having problems with the deploy being successful, but not actually starting the server, try this:
     //shipit.start('kill_screen', 'install', 'install_config', 'start_session');
   });
