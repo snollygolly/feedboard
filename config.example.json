@@ -24,5 +24,13 @@
 		"hostname": "YOUR HOSTNAME",
 		"path": "~/FeedBoard",
 		"screen": "feedboard"
+	},
+	"env":{
+		"local":{
+			"views_dir": "views"
+			},
+		"production":{
+			"views_dir": "build"
+		}
 	}
 }
