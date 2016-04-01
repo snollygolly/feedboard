@@ -26,11 +26,6 @@ module.exports = function (shipit) {
     return shipit.remote(pathStr + " && cd " + currentPath + " && npm install --production &> /dev/null");
   });
 
-  // this task runs an Bower install remotely to install dependencies
-  shipit.blTask('bower_install', function () {
-    return shipit.remote(pathStr + " && cd " + currentPath + " && bower install --production &> /dev/null");
-  });
-
   // this task builds the React components with webpack
   shipit.blTask('webpack_build', function () {
     return shipit.remote(pathStr + " && cd " + currentPath + " && npm run build &> /dev/null");
