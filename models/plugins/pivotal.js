@@ -7,6 +7,7 @@ module.exports.process = (header, data) => {
 	returnObj.error = false;
 	returnObj.icon = "fa-asterisk";
 	returnObj.avatar = "/assets/img/pivotal-logo.png";
+	returnObj.plugin = "pivotal";
 	// send it back
 	return returnObj;
 };

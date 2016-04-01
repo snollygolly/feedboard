@@ -9,8 +9,17 @@ body {
   padding: 10px;
 }
 
-.panel-avatar {
+.card-block {
+	padding-left: 5rem;
+  position: relative;
+}
+
+.card-avatar {
 	height: 5em;
-	width: 5em;
-	padding: .5em;
+  width: 5em;
+  padding: .5em;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }

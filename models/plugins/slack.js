@@ -8,6 +8,7 @@ module.exports.process = (header, data) => {
 	returnObj.error = false;
 	returnObj.icon = "fa-slack";
 	returnObj.avatar = "/assets/img/slack-logo.png";
+	returnObj.plugin = "slack";
 	// send it back
 	return returnObj;
 };

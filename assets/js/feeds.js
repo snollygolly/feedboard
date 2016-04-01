@@ -58,7 +58,7 @@ function buildPanel(data) {
 	$(panelTitle).html("&nbsp;&nbsp;&nbsp;" + data.title);
 	// build the avatar
 	var panelAvatar = document.createElement("img");
-	$(panelAvatar).addClass("panel-avatar");
+	$(panelAvatar).addClass("card-avatar");
 	$(panelAvatar).attr("src", data.avatar);
 	// build the body
 	var panelBody = document.createElement("div");
