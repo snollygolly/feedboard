@@ -9,16 +9,16 @@ co(function* coWrap() {
 
 	try {
 		yield r.dbCreate(config.site.db.db).run(connection);
-		console.log(`Databse '${config.site.db.db}' created successfully.`);
+		console.log(`Database '${config.site.db.db}' created successfully.`);
 	} catch (err) {
-		console.log(`Warning! ${err.msg}`);
+		console.log(`Warning! ${err}`);
 	}
 
 	try {
 		yield r.db(config.site.db.db).tableCreate("activity").run(connection);
 		console.log("Table 'activity' created successfully.");
 	} catch (err) {
-		console.log(`Warning! ${err.msg}`);
+		console.log(`Warning! ${err}`);
 	}
 
 	yield connection.close();

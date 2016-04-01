@@ -1,6 +1,7 @@
 "use strict";
 
 const config = require("./config.json");
+const env = config.env[process.env.NODE_ENV];
 const fs = require("fs");
 
 const app = require("./index.js").app;
@@ -23,7 +24,7 @@ function renderFile(src) {
 // routes
 routes.get("/", function* get() {
 	// yield this.render("index", {title: config.site.name, script: "feeds"});
-	this.body = yield renderFile(`${__dirname}/build/index.html`);
+	this.body = yield renderFile(`${__dirname}/${env.views_dir}/index.html`);
 });
 
 routes.post("/feeds/:provider", feeds.process);

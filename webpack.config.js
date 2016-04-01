@@ -33,7 +33,7 @@ module.exports = {
 				loaders: [ "react-hot", "babel" ]
 			},
 			{
-				test: /\.scss$/,
+				test: /\.s?css$/,
 				exclude: /node_modules/,
 				loader: "style!css!sass"
 			},

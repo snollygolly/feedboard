@@ -2,6 +2,8 @@ import React from 'react';
 import { render } from 'react-dom';
 import RootComponent from './components/RootComponent';
 
+import '../assets/css/custom.css';
+
 const rootInstance = render(<RootComponent />, document.getElementById('react-wrapper'));
 
 if(module.hot) {
