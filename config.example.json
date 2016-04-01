@@ -8,7 +8,13 @@
 			"pivotal",
 			"slack"
 		],
-		"analytics": "UA-00000000-0"
+		"analytics": "UA-00000000-0",
+		"db": {
+			"host": "localhost",
+			"port": 28015,
+			"authKey": "",
+			"db": "feedboard"
+		}
 	},
 	"deploy":{
 		"username": "YOUR USERNAME",
