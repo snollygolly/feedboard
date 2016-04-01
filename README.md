@@ -43,3 +43,6 @@ npm start
 ```
 
 * Enjoy!
+
+## Special Thanks
+[Ansira](https://ansira.com/) for helping to support the project and offering to be the test subject.
