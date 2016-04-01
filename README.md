@@ -27,6 +27,16 @@ npm install
 
 * If you want to use Google Analytics, set `config.site.analytics` to your Tracking ID and make sure the analytics partial (analytics.hbs) contains the correct Universal Analytics tracking code.  If you don't want to use Google Analytics, remove that property or set it to false.`
 
+* Make sure your database is running or start it up.
+```
+rethinkdb
+```
+
+* Run the seed script.
+```
+npm run seed
+```
+
 * Start it up.
 ```
 npm start
