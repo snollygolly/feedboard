@@ -4,7 +4,7 @@
   "description": "A billboard for displaying activity feeds",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config ./webpack.config.js",
+    "build": "webpack --config ./webpack.prod.config.js",
     "dev": "webpack-dev-server --port 5002 --host 0.0.0.0 --devtool eval --progress --colors --hot --content-base ./build --config ./webpack.config.js",
     "seed": "node ./helpers/seed.js",
     "start": "NODE_ENV=local ./node_modules/.bin/nodemon -e js,hbs index.js",
