@@ -22,8 +22,13 @@ module.exports = function (shipit) {
   });
 
   // this task runs an NPM install remotely to install dependencies
-  shipit.blTask('install', function () {
+  shipit.blTask('npm_install', function () {
     return shipit.remote(pathStr + " && cd " + currentPath + " && npm install --production &> /dev/null");
+  });
+
+  // this task runs an Bower install remotely to install dependencies
+  shipit.blTask('bower_install', function () {
+    return shipit.remote(pathStr + " && cd " + currentPath + " && bower install --production &> /dev/null");
   });
 
   // this task starts the server in a screen with a name set in the config
@@ -53,7 +58,7 @@ module.exports = function (shipit) {
 
   shipit.on('deployed', function () {
     // this series of tasks will result in a good deploy assuming everything is \working
-    shipit.start( 'kill_screen', 'install', 'install_local_config', 'start_screen');
+    shipit.start( 'kill_screen', 'npm_install', 'bower_install', 'install_local_config', 'start_screen');
     // if you're having problems with the deploy being successful, but not actually starting the server, try this:
     //shipit.start('kill_screen', 'install', 'install_config', 'start_session');
   });
