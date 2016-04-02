@@ -9,6 +9,7 @@
     "seed": "node ./helpers/seed.js",
     "start": "NODE_ENV=local ./node_modules/.bin/nodemon -e js,hbs index.js",
     "production": "NODE_ENV=production node index.js",
+    "install": "bower install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
