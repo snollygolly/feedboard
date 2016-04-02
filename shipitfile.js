@@ -28,7 +28,12 @@ module.exports = function (shipit) {
 
   // this task builds the React components with webpack
   shipit.blTask('webpack_build', function () {
-    return shipit.remote(pathStr + " && cd " + currentPath + " && npm run build &> /dev/null");
+    return shipit.local('npm run build');
+  });
+
+  // this task copies the React components to the remote server
+  shipit.blTask('install_local_build', function () {
+    return shipit.remoteCopy('build', currentPath);
   });
 
   // this task starts the server in a screen with a name set in the config
@@ -58,7 +63,7 @@ module.exports = function (shipit) {
 
   shipit.on('deployed', function () {
     // this series of tasks will result in a good deploy assuming everything is \working
-    shipit.start( 'kill_screen', 'install_local_config', 'npm_install', 'bower_install', 'webpack_build', 'start_screen');
+    shipit.start( 'kill_screen', 'install_local_config', 'webpack_build', 'install_local_build', 'npm_install', 'bower_install', 'start_screen');
     // if you're having problems with the deploy being successful, but not actually starting the server, try this:
     //shipit.start('kill_screen', 'install', 'install_config', 'start_session');
   });

@@ -4,7 +4,7 @@
   "description": "A billboard for displaying activity feeds",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config ./webpack.config.js",
+    "build": "webpack --config ./webpack.prod.config.js",
     "dev": "webpack-dev-server --port 5002 --host 0.0.0.0 --devtool eval --progress --colors --hot --content-base ./build --config ./webpack.config.js",
     "seed": "node ./helpers/seed.js",
     "start": "NODE_ENV=local ./node_modules/.bin/nodemon -e js,hbs index.js",
@@ -40,8 +40,7 @@
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "react-router": "^2.0.1",
-    "rethinkdb": "^2.2.3",
-    "webpack": "^1.12.14"
+    "rethinkdb": "^2.2.3"
   },
   "devDependencies": {
     "babel-core": "^6.7.2",
@@ -62,6 +61,7 @@
     "shipit-deploy": "^2.1.2",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
+    "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1"
   }
 }
