@@ -10,6 +10,7 @@ __Feedboard__ is a web application that can be used in a kiosk setting to show l
 
 ## Requirements
 * [Node.js](https://nodejs.org/en/) (Version 5 and up recommended)
+* [Bower](http://bower.io/)
 
 ### Installation
 
@@ -21,6 +22,11 @@ git clone https://github.com/snollygolly/feedboard.git
 * Install node packages (from inside the feedboard folder).
 ```
 npm install
+```
+
+* Install front end packages (from inside the feedboard folder)
+```
+bower install
 ```
 
 * Create your config.  There's a `config.example.json` file in the root.  Edit it to include all your values for the site and your OAuth information.  Save it as `config.json` and leave it in the root.
