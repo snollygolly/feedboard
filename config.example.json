@@ -6,7 +6,8 @@
 		"plugins": [
 			"github",
 			"pivotal",
-			"slack"
+			"slack",
+			"feedboard"
 		],
 		"analytics": "UA-00000000-0",
 		"db": {
