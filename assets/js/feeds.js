@@ -41,28 +41,28 @@ function clearFeed() {
 function buildPanel(data) {
 	// build the main panel container
 	var panelDiv = document.createElement("div");
-	$(panelDiv).addClass("feed-card card");
+	$(panelDiv).addClass("feed-panel panel panel-default");
 	// build the heading container
 	var panelHeading = document.createElement("div");
-	$(panelHeading).addClass("card-header");
+	$(panelHeading).addClass("panel-heading");
 	// build the icon
 	var panelIcon = document.createElement("span");
 	$(panelIcon).addClass("fa-lg fa " + data.icon);
 	// build the timestamp
-	var panelTime = document.createElement("h6");
+	var panelTime = document.createElement("small");
 	$(panelTime).addClass("pull-right");
 	$(panelTime).html(moment(data.timestamp).format("MMMM Do YYYY, h:mm:ss a"));
 	// build the actual title
 	var panelTitle = document.createElement("p");
-	$(panelTitle).addClass("card-title");
+	$(panelTitle).addClass("panel-title");
 	$(panelTitle).html("&nbsp;&nbsp;&nbsp;" + data.title);
 	// build the avatar
 	var panelAvatar = document.createElement("img");
-	$(panelAvatar).addClass("card-avatar");
+	$(panelAvatar).addClass("panel-avatar");
 	$(panelAvatar).attr("src", data.avatar);
 	// build the body
 	var panelBody = document.createElement("div");
-	$(panelBody).addClass("card-block");
+	$(panelBody).addClass("panel-body");
 	$(panelBody).html(md.render(data.content));
 	// start attaching elements to each othe
 	$(panelTitle).prepend(panelIcon);

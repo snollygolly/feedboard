@@ -5,19 +5,20 @@ html {
 
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 10px;
-  padding: 10px;
+  margin-bottom: 1rem;
+  padding: 1rem;
 }
 
-.card-block {
-	padding-left: 5rem;
+.panel-body {
+	padding-left: 8rem;
   position: relative;
+  min-height: 8rem;
 }
 
-.card-avatar {
-	height: 5em;
-  width: 5em;
-  padding: .5em;
+.panel-avatar {
+	height: 8rem;
+  width: 8rem;
+  padding: 1rem;
   position: absolute;
   left: 0;
   top: 50%;

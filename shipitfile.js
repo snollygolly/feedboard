@@ -61,9 +61,13 @@ module.exports = function (shipit) {
     return shipit.remote("if screen -ls | grep -q '" + config.deploy.screen + "'; then screen -S " + config.deploy.screen + " -p 0 -X stuff $'\\003'; fi;");
   });
 
+	shipit.blTask('update_feedboard', function () {
+    return shipit.remote(`sleep 5; curl -i -X POST -H "Content-Type:application/json" -d '{"type":"update"}' 'http://127.0.0.1:${config.site.port}/feeds/feedboard'`);
+  });
+
   shipit.on('deployed', function () {
     // this series of tasks will result in a good deploy assuming everything is \working
-    shipit.start( 'kill_screen', 'install_local_config', 'webpack_build', 'install_local_build', 'npm_install', 'start_screen');
+    shipit.start( 'kill_screen', 'install_local_config', 'webpack_build', 'install_local_build', 'npm_install', 'start_screen', 'update_feedboard');
     // if you're having problems with the deploy being successful, but not actually starting the server, try this:
     //shipit.start('kill_screen', 'install', 'install_config', 'start_session');
   });
