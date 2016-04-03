@@ -15,9 +15,11 @@ module.exports.process = (header, data) => {
 
 const githubProcessing = {
 	create: (data) => {
+		const refTypeSuffix = (data.ref_type == "tag") ? "ged" : "ed";
+		const content = `A new ${data.ref_type} called __${data.ref}__ was created.`;
 		return {
-			title: `${data.repository.full_name} was created!`,
-			content: data.description
+			title: `A new ${data.ref_type} was created for ${data.repository.full_name}!`,
+			content: content
 		};
 	},
 	ping: (data) => {
