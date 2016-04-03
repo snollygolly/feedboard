@@ -62,7 +62,7 @@ module.exports = function (shipit) {
   });
 
 	shipit.blTask('update_feedboard', function () {
-    return shipit.remote(`curl -i -X POST -H "Content-Type:application/json" -d '{"type":"update"}' 'http://127.0.0.1:${config.site.port}/feeds/feedboard'`);
+    return shipit.remote(`sleep 5; curl -i -X POST -H "Content-Type:application/json" -d '{"type":"update"}' 'http://127.0.0.1:${config.site.port}/feeds/feedboard'`);
   });
 
   shipit.on('deployed', function () {
