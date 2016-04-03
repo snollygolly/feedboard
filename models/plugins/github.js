@@ -33,9 +33,22 @@ const githubProcessing = {
 		};
 	},
 	push: (data) => {
+		// setting the commit length
+		const commitCount = data.commits.length;
+		// getting the correct plural for commits
+		const commitPlural = (commitCount === 1) ? "commit" : "commits";
+		// get the name of the branch
+		const commitBranch = data.ref.split("/").pop();
+		// start building out an array of commit messages
+		const commitMessages = [];
+		const preMsg = "* ";
+		for (const commit of data.commits) {
+			commitMessages.push(`${preMsg}${commit.message}`);
+		}
+		const content = `This push contained __${commitCount}__ ${commitPlural} on the __${commitBranch}__ branch.\n${commitMessages.join("\n")}`;
 		return {
 			title: `${data.sender.login} performed a push to ${data.repository.full_name}`,
-			content: data.head_commit.message
+			content: content
 		};
 	}
 };
