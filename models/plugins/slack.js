@@ -17,6 +17,7 @@ const slackProcessing = {
 	message: (data) => {
 		const message = data.text.split("announce")[1].trim();
 		return {
+			type: "message",
 			title: `${data.user_name} posted a message in #${data.channel_name}`,
 			content: message
 		};

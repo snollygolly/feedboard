@@ -18,12 +18,14 @@ const githubProcessing = {
 		const refTypeSuffix = (data.ref_type == "tag") ? "ged" : "ed";
 		const content = `A new ${data.ref_type} called __${data.ref}__ was created.`;
 		return {
+			type: "create",
 			title: `A new ${data.ref_type} was created for ${data.repository.full_name}!`,
 			content: content
 		};
 	},
 	ping: (data) => {
 		return {
+			type: "ping",
 			title: `${data.repository.full_name} was set up!`,
 			content: `Moment of Zen: ${data.zen}`
 		};
@@ -33,6 +35,7 @@ const githubProcessing = {
 		const baseBranch = data.pull_request.base.ref;
 		const content = `__${headBranch}__ is being merged into __${baseBranch}__\n${data.pull_request.title}`;
 		return {
+			type: "pull_request",
 			title: `Pull request #${data.number} was ${data.action} in ${data.pull_request.head.repo.full_name}!`,
 			content: content
 		};
@@ -52,6 +55,7 @@ const githubProcessing = {
 		}
 		const content = `This push contained __${commitCount}__ ${commitPlural} on the __${commitBranch}__ branch.\n${commitMessages.join("\n")}`;
 		return {
+			type: "push",
 			title: `${data.sender.login} performed a push to ${data.repository.full_name}`,
 			content: content
 		};
