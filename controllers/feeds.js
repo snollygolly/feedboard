@@ -22,7 +22,7 @@ module.exports.process = function* process() {
 	// there wasn't an error, so send out a socket event
 	socket.update(result);
 	// check to see if this was feedboard updating itself
-	if (result.plugin == "feedboard") {
+	if (result.plugin == "feedboard" && result.type == "update") {
 		socket.restart();
 	}
 	return this.body = result;
