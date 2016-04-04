@@ -17,7 +17,8 @@
 			"db": "feedboard"
 		},
 		"options": {
-			"results_on_bootstrap": 25
+			"results_on_bootstrap": 25,
+			"time_to_wait_before_restart": 5
 		}
 	},
 	"deploy":{
