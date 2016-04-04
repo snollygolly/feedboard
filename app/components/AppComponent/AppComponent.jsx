@@ -37,7 +37,7 @@ class AppComponent extends React.Component {
 	_update(data) {
 		if (data.error === false) {
 			let {activity} = this.state;
-			activity.push(data);
+			activity.unshift(data);
 			this.setState({activity: activity});
 		} else {
 			console.log("error: " + data.message);
