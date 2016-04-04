@@ -1,6 +1,8 @@
 import React from "react";
+import ReactDOM from 'react-dom';
 
 import ActivityComponent from "../ActivityComponent";
+import AlertComponent from "../AlertComponent";
 
 let socket;
 
@@ -12,12 +14,14 @@ class AppComponent extends React.Component {
 
     // Initial State
     this.state = {
-			activity: []
+			activity: [],
+			alerts: []
 		};
 
 		// Bind functions to this
     this._bootstrap = this._bootstrap.bind(this);
     this._update = this._update.bind(this);
+    this._removeAlert = this._removeAlert.bind(this);
     this._restart = this._restart.bind(this);
   }
 
@@ -36,8 +40,8 @@ class AppComponent extends React.Component {
 
 	_update(data) {
 		if (data.error === false) {
-			let {activity} = this.state;
-			activity.push(data);
+			let activity = this.state.activity;
+			activity.unshift(data);
 			this.setState({activity: activity});
 		} else {
 			console.log("error: " + data.message);
@@ -45,15 +49,37 @@ class AppComponent extends React.Component {
 		}
 	}
 
+	_removeAlert(e) {
+		let alertIndex = parseInt(e.target.value, 10);
+		let alerts = this.state.alerts;
+		alerts.splice(alertIndex, 1);
+		this.setState({alerts: alerts});
+	}
+
 	_restart(data) {
-		setTimeout(function() {
-			document.location.reload(true);
-		}, data.time * 1000);
+		let alerts = this.state.alerts;
+		data.type = "info";
+		data.message = "Feedboard has been updated! Refresh your browser to get the latest.";
+		alerts.unshift(data);
+		this.setState({alerts: alerts});
 	}
 
 	render() {
 		return (
 		  <div className="container-fluid">
+		  	<div id="alert-container" className="row">
+		  		{
+		  			this.state.alerts.map((alert, index) => {
+		  				return (
+		  					<AlertComponent
+		  						key={index}
+		  						data={alert}
+		  						removeTask={this._removeAlert}
+		  					/>
+	  					);
+		  			})
+		  		}
+		  	</div>
 				<div id="feed-container" className="row">
 					{
 						this.state.activity.map((activity, index) => {

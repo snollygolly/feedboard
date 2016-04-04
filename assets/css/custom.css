@@ -9,6 +9,15 @@ body {
   padding: 1rem;
 }
 
+#alert-container {
+  margin: 0;
+  position: fixed;
+  top: 0;
+  left: 10px;
+  right: 10px;
+  z-index: 1000;
+}
+
 .panel-title > span.fa {
 	margin-right: 1rem;
 }
