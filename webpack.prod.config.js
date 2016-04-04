@@ -39,6 +39,10 @@ module.exports = {
 				test: /\.(png|jpg)$/,
 				exclude: /node_modules/,
 				loader: "url?limit=25000"
+			},
+			{
+				test: /\.json$/,
+				loader: "json"
 			}
 		]
 	}

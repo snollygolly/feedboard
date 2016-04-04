@@ -1,4 +1,9 @@
-var panelTemplate;
+/*
+ *  THIS FILE IS DEPRICATED AS THIS
+ *  PROJECT NOW USES REACT
+ ************************************/
+
+/*var panelTemplate;
 
 var md = new Remarkable({
 	"html": true,
@@ -74,3 +79,4 @@ function buildPanel(data) {
 	// prepend the panel
 	$(panelDiv).hide().prependTo("#feed-container").fadeIn(1000);
 }
+*/

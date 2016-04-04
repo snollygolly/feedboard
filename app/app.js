@@ -1,10 +1,10 @@
 import React from 'react';
 import { render } from 'react-dom';
-import RootComponent from './components/RootComponent';
+import AppComponent from './components/AppComponent';
 
 import '../assets/css/custom.css';
 
-const rootInstance = render(<RootComponent />, document.getElementById('react-wrapper'));
+const rootInstance = render(<AppComponent />, document.getElementById('react-wrapper'));
 
 if(module.hot) {
   require('react-hot-loader/Injection').RootInstanceProvider.injectProvider({

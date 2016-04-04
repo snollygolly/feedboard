@@ -9,6 +9,10 @@ body {
   padding: 1rem;
 }
 
+.panel-title > span.fa {
+	margin-right: 1rem;
+}
+
 .panel-body {
 	padding-left: 8rem;
   position: relative;

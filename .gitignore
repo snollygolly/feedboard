@@ -36,3 +36,6 @@ assets/bower_components
 
 config.json
 tmp
+
+# Compiled files
+build/app.js

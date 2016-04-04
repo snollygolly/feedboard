@@ -22,7 +22,7 @@ io.on("bootstrap", co.wrap(function* co(ctx, data) {
 
 module.exports.restart = function restart() {
 	// Broadcasts to all other connections
-	io.broadcast("restart", config.site.options.time_to_wait_before_restart);
+	io.broadcast("restart", {"time": config.site.options.time_to_wait_before_restart});
 };
 
 module.exports.update = function update(data) {
