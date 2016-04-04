@@ -6,7 +6,7 @@ module.exports.process = (header, data) => {
 	const returnObj = feedboardProcessing["update"](data);
 	console.log(data);
 	returnObj.error = false;
-	returnObj.icon = "fa-fortawesome";
+	returnObj.icon = "fa-fort-awesome";
 	returnObj.avatar = "/assets/img/feedboard-logo.png";
 	returnObj.plugin = "feedboard";
 	// send it back

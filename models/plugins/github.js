@@ -29,9 +29,12 @@ const githubProcessing = {
 		};
 	},
 	pull_request: (data) => {
+		const headBranch = data.pull_request.head.ref;
+		const baseBranch = data.pull_request.base.ref;
+		const content = `__${headBranch}__ is being merged into __${baseBranch}__\n${data.pull_request.title}`;
 		return {
 			title: `Pull request #${data.number} was ${data.action} in ${data.pull_request.head.repo.full_name}!`,
-			content: data.pull_request.title
+			content: content
 		};
 	},
 	push: (data) => {
