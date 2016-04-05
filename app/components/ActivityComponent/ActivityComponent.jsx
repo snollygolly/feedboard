@@ -12,6 +12,10 @@ class ActivityComponent extends React.Component {
 		};
 	}
 
+	componentWillReceiveProps(nextProps) {
+		this.setState({iconClass: `fa fa-lg ${nextProps.data.icon}`});
+	}
+
 	render() {
 		return (
 			<div className="feed-panel panel panel-default">
