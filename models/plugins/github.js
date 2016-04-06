@@ -9,6 +9,7 @@ module.exports.process = (header, data) => {
 	returnObj.icon = "fa-github";
 	returnObj.avatar = data.sender.avatar_url;
 	returnObj.plugin = "github";
+	returnObj.user = data.sender.login;
 	// send it back
 	return returnObj;
 };

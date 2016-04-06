@@ -9,6 +9,7 @@ module.exports.process = (header, data) => {
 	returnObj.icon = "fa-slack";
 	returnObj.avatar = "/assets/img/slack-logo.png";
 	returnObj.plugin = "slack";
+	returnObj.user = data.user_name;
 	// send it back
 	return returnObj;
 };

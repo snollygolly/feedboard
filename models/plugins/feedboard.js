@@ -8,6 +8,7 @@ module.exports.process = (header, data) => {
 	returnObj.icon = "fa-fort-awesome";
 	returnObj.avatar = "/assets/img/feedboard-logo.png";
 	returnObj.plugin = "feedboard";
+	returnObj.user = "system";
 	// send it back
 	return returnObj;
 };
