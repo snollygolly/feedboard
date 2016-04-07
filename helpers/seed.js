@@ -20,6 +20,7 @@ co(function* coWrap() {
 		// create the secondary indexes
 		yield r.db(config.site.db.db).table("activity").indexCreate("timestamp").run(connection);
 		yield r.db(config.site.db.db).table("activity").indexCreate("provider").run(connection);
+		yield r.db(config.site.db.db).table("activity").indexCreate("user_id").run(connection);
 		console.log("Table 'activity' indexes created successfully.");
 
 	} catch (err) {
