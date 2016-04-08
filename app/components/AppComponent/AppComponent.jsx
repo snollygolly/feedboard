@@ -31,6 +31,7 @@ class AppComponent extends React.Component {
 		// Bind functions to this
     this._bootstrap = this._bootstrap.bind(this);
     this._update = this._update.bind(this);
+    this._buildNotification = this._buildNotification.bind(this);
     this._createAlert = this._createAlert.bind(this);
     this._removeAlert = this._removeAlert.bind(this);
     this._restart = this._restart.bind(this);
@@ -44,6 +45,12 @@ class AppComponent extends React.Component {
 		socket.on("bootstrap", this._bootstrap);
 		socket.on("restart", this._restart);
 		socket.on("update", this._update);
+
+		if ("Notification" in window) {
+			if (Notification.permission !== "granted" && Notification.permission !== "denied") {
+				Notification.requestPermission();
+			}
+	  }
 
 		let _this = this;
 
@@ -79,12 +86,35 @@ class AppComponent extends React.Component {
 				activity: activity,
 				filters: filters
 			});
+
+			this._buildNotification({
+				title: "New Feedoard Activity",
+				options: {
+					icon: data.avatar,
+					body: `${data.title}\n${data.content}`
+				}
+			});
 			
 			this._doFilter(this.state.activeFilter);
 		} else {
 			console.error("error: " + data.message);
 			console.error(data);
 		}
+	}
+
+	_buildNotification(data) {
+	  if (!("Notification" in window)) {
+	  	// Notification not supported
+	  } else if (Notification.permission === "granted") {
+	    // If it's okay let's create a notification
+	    var notification = new Notification(data.title, data.options);
+	  } else if (Notification.permission !== "denied") {
+	    Notification.requestPermission(function (permission) {
+	      if (permission === "granted") {
+	        var notification = new Notification(data.title, data.options);
+	      }
+	    });
+	  }
 	}
 
 	_createAlert(alert) {
