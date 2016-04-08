@@ -33,6 +33,7 @@ class AppComponent extends React.Component {
     this._update = this._update.bind(this);
     this._removeAlert = this._removeAlert.bind(this);
     this._restart = this._restart.bind(this);
+    this._buildFilters = this._buildFilters.bind(this);
     this._doFilter = this._doFilter.bind(this);
   }
 
@@ -55,13 +56,8 @@ class AppComponent extends React.Component {
 	// Socket callbacks
 	_bootstrap(data) {
 		let activity = JSON.parse(data);
-		let filters = this.state.filters;
-		
-		filters.plugin = _.chain(activity)
-			.map('plugin')
-			.uniq()
-			.sortBy()
-			.value();
+
+		let filters = this._buildFilters(activity);
 
 		this.setState({
 			activity: activity,
@@ -74,7 +70,15 @@ class AppComponent extends React.Component {
 		if (data.error === false) {
 			let activity = this.state.activity;
 			activity.unshift(data);
-			this.setState({activity: activity});
+			activity = activity.slice(0, 25);
+
+			let filters = this._buildFilters(activity);
+			
+			this.setState({
+				activity: activity,
+				filters: filters
+			});
+			
 			this._doFilter(this.state.activeFilter);
 		} else {
 			console.error("error: " + data.message);
@@ -95,6 +99,18 @@ class AppComponent extends React.Component {
 		data.message = "Feedboard has been updated! Refresh your browser to get the latest.";
 		alerts.unshift(data);
 		this.setState({alerts: alerts});
+	}
+
+	_buildFilters(activity) {
+		let filters = this.state.filters;
+		
+		filters.plugin = _.chain(activity)
+			.map('plugin')
+			.uniq()
+			.sortBy()
+			.value();
+
+		return filters;
 	}
 
 	_doFilter(event) {
