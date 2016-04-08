@@ -37,3 +37,9 @@ body {
   top: 50%;
   transform: translateY(-50%);
 }
+
+.current-time {
+  height: 38px;
+  line-height: 38px;
+  font-size: 2rem;
+}

@@ -1,6 +1,5 @@
 import React from "react";
 import { Alert } from "react-bootstrap";
-import moment from "moment";
 
 class AlertComponent extends React.Component {
 	constructor(props) {
