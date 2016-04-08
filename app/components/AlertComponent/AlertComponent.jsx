@@ -13,11 +13,10 @@ class AlertComponent extends React.Component {
 		return (
 			<Alert
 				bsStyle={this.props.data.type}
-				dismissAfter={this.props.data.time * 1000}
 				onDismiss={this.props.removeTask}
 				className="alert-dismissable"
 			>
-		    {this.props.data.message}
+		    <span dangerouslySetInnerHTML={this.props.data.message} />
 		  </Alert>
 		);
 	}

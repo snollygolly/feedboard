@@ -31,6 +31,7 @@ class AppComponent extends React.Component {
 		// Bind functions to this
     this._bootstrap = this._bootstrap.bind(this);
     this._update = this._update.bind(this);
+    this._createAlert = this._createAlert.bind(this);
     this._removeAlert = this._removeAlert.bind(this);
     this._restart = this._restart.bind(this);
     this._buildFilters = this._buildFilters.bind(this);
@@ -86,6 +87,10 @@ class AppComponent extends React.Component {
 		}
 	}
 
+	_createAlert(alert) {
+		return {__html: alert};
+	}
+
 	_removeAlert(e) {
 		let alertIndex = parseInt(e.target.value, 10);
 		let alerts = this.state.alerts;
@@ -96,7 +101,7 @@ class AppComponent extends React.Component {
 	_restart(data) {
 		let alerts = this.state.alerts;
 		data.type = "info";
-		data.message = "Feedboard has been updated! Refresh your browser to get the latest.";
+		data.message = {__html: "Feedboard has been updated! <a href=\"javascript:window.location.reload(true);\" class=\"alert-link\">Refresh</a> your browser to get the latest."};
 		alerts.unshift(data);
 		this.setState({alerts: alerts});
 	}
