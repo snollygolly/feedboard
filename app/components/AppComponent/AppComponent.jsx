@@ -91,7 +91,7 @@ class AppComponent extends React.Component {
 				title: "New Feedoard Activity",
 				options: {
 					icon: data.avatar,
-					body: `${data.title}\n${data.content}`
+					body: `${data.title}`
 				}
 			});
 			
