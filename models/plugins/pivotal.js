@@ -17,8 +17,8 @@ const pivotalProcessing = {
 	activity: (data) => {
 		return {
 			type: "activity",
-			title: data.message,
-			content: `Project: ${data.project.name} - #${data.primary_resources[0].id} [${data.primary_resources[0].story_type}]<br>${data.primary_resources[0].name}`
+			title: `Project: ${data.project.name} - #${data.primary_resources[0].id} [${data.primary_resources[0].story_type}]`,
+			content: `${data.primary_resources[0].name}<br>${data.message}`
 		};
 	}
 };
