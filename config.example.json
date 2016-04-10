@@ -3,11 +3,12 @@
 		"port": 5001,
 		"name": "FeedBoard",
 		"secret": "feedboard-is-billboards-for-feeds",
-		"plugins": [
+		"plugins": [,
+			"feedboard"
 			"github",
 			"pivotal",
 			"slack",
-			"feedboard"
+			"taiga"
 		],
 		"analytics": "UA-00000000-0",
 		"db": {
