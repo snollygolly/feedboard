@@ -1,0 +1,31 @@
+curl -i -X POST \
+   -H "Content-Type:application/json" \
+   -d \
+'{
+    "data": {
+        "tags": ["velit", "voluptatem"],
+        "owner": {"id": 10, "name": "Alicia Diaz"},
+        "assigned_to": {"id": 12, "name": "Josefina Reyes"},
+        "watchers": [],
+        "id": 22,
+        "version": 2,
+        "is_blocked": false,
+        "blocked_note": "",
+        "ref": 105,
+        "status": 2,
+        "severity": 3,
+        "priority": 2,
+        "type": 3,
+        "milestone": null,
+        "project": 1,
+        "created_date": "2015-01-14T12:37:04+0000",
+        "modified_date": "2015-01-14T12:37:04+0000",
+        "finished_date": null,
+        "subject": "Lighttpd x-sendfile support",
+        "description": "Nemo quo eveniet quibusdam laboriosam non...",
+        "external_reference": null
+    },
+    "action": "create",
+    "type": "issue"
+}' \
+ 'http://127.0.0.1:5001/feeds/taiga'
