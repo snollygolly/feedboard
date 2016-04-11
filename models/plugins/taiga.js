@@ -10,7 +10,7 @@ module.exports.process = (header, data) => {
 	returnObj.plugin = "taiga";
 	returnObj.user = "Taiga";
 	if (data.data.owner) {
-		returnObj.user = data.data.owner.user;
+		returnObj.user = data.data.owner.name;
 	}
 	// send it back
 	return returnObj;

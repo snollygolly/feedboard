@@ -8,7 +8,7 @@
     "dev": "webpack-dev-server --port 5002 --host 0.0.0.0 --devtool eval --progress --colors --hot --content-base ./build --config ./webpack.config.js",
     "seed": "node ./helpers/seed.js",
     "start": "NODE_ENV=local ./node_modules/.bin/nodemon -e js,hbs index.js",
-    "production": "sudo NODE_ENV=production node index.js >> /var/log/feedboard.log 2>&1",
+    "production": "sudo NODE_ENV=production node index.js >> /var/log/feedboard.log",
     "install": "bower install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
