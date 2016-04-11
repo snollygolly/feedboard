@@ -17,7 +17,9 @@ module.exports.process = function* process(provider, header, data) {
 	}
 	let result = plugins[provider].process(header, data);
 	result.provider = provider;
-	result = yield createActivity(result);
+	if (result.error === false) {
+		result = yield createActivity(result);
+	}
 	return result;
 };
 

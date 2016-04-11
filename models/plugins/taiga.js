@@ -8,7 +8,10 @@ module.exports.process = (header, data) => {
 	returnObj.icon = "fa-certificate";
 	returnObj.avatar = "/assets/img/taiga-logo.svg";
 	returnObj.plugin = "taiga";
-	returnObj.user = data.data.owner.name;
+	returnObj.user = "";
+	if (data.data.owner) {
+		returnObj.user = data.data.owner.user;
+	}
 	// send it back
 	return returnObj;
 };
