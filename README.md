@@ -7,6 +7,7 @@ __Feedboard__ is a web application that can be used in a kiosk setting to show l
 * [Github](https://developer.github.com/webhooks/) (create, ping, push, pull_request)
 * [Pivotal Tracker](https://www.pivotaltracker.com/help/api/rest/v5#activity_resource) (activity)
 * [Slack](https://api.slack.com/outgoing-webhooks) (outgoing webhooks)
+* [Taiga](http://taigaio.github.io/taiga-doc/dist/webhooks.html) _(WIP)_
 
 ## Requirements
 * [Node.js](https://nodejs.org/en/) (Version 5 and up recommended)
