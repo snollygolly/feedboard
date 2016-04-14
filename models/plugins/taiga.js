@@ -3,7 +3,17 @@
 module.exports.process = (header, data) => {
 	// TODO: check for hash correctness?
 	// assume all checks have passed here
-	const returnObj = taigaProcessing["activity"](data);
+	const allowedTypes = [
+		"issue",
+		"task",
+		"userstory"
+	];
+
+	if (allowedTypes.indexOf(data.type) === -1) {
+		return {error: true, message: "Taiga webhook type not supported"};
+	}
+
+	const returnObj = taigaProcessing[data.type](data);
 	returnObj.error = false;
 	returnObj.icon = "fa-certificate";
 	returnObj.avatar = "/assets/img/taiga-logo.svg";
@@ -16,12 +26,46 @@ module.exports.process = (header, data) => {
 	return returnObj;
 };
 
+// TODO: Parse out UPDATE hooks for each type since Taiga
+//       does not send back a nice, formatted message
 const taigaProcessing = {
-	activity: (data) => {
+	issue: (data) => {
+		const action = `${data.action.replace(/^./, (letter) => {
+			return letter.toUpperCase();
+		})}d`;
+
+		const content = `${data.data.subject}<br/>${data.data.owner.name} ${action} this Issue`;
+
 		return {
-			type: "activity",
-			title: `Project: ${data.data.project} - #${data.data.id} [${data.type}]`,
-			content: `${data.data.subject}<br>${data.data.description}`
+			type: `${data.type}_${data.action}`,
+			title: `Project: ${data.data.project} - #${data.data.id} [Issue]`,
+			content: content
+		};
+	},
+	task: (data) => {
+		const action = `${data.action.replace(/^./, (letter) => {
+			return letter.toUpperCase();
+		})}d`;
+
+		const content = `${data.data.subject}<br/>${data.data.owner.name} ${action} this Task`;
+
+		return {
+			type: `${data.type}_${data.action}`,
+			title: `Project: ${data.data.project} - #${data.data.id} [Task]`,
+			content: content
+		};
+	},
+	userstory: (data) => {
+		const action = `${data.action.replace(/^./, (letter) => {
+			return letter.toUpperCase();
+		})}d`;
+
+		const content = `${data.data.subject}<br/>${data.data.owner.name} ${action} this User Story`;
+
+		return {
+			type: `${data.type}_${data.action}`,
+			title: `Project: ${data.data.project} - #${data.data.id} [User Story]`,
+			content: content
 		};
 	}
 };
