@@ -1,15 +1,11 @@
 "use strict";
 
+const pluginOptions = require("../../config.json").site.pluginOptions.taiga;
+
 module.exports.process = (header, data) => {
 	// TODO: check for hash correctness?
 	// assume all checks have passed here
-	const allowedTypes = [
-		"issue",
-		"task",
-		"userstory"
-	];
-
-	if (allowedTypes.indexOf(data.type) === -1) {
+	if (pluginOptions.allowedTypes.indexOf(data.type) === -1) {
 		return {error: true, message: "Taiga webhook type not supported"};
 	}
 

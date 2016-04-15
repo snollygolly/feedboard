@@ -10,6 +10,20 @@
 			"slack",
 			"taiga"
 		],
+		"pluginOptions": {
+			"github": {
+				"ignoredRepos": [
+					"ANY PREFIX OR REPO NAME"
+				]
+			},
+			"taiga": {
+				"allowedTypes": [
+					"issue",
+					"task",
+					"userstory"
+				]
+			}
+		},
 		"analytics": "UA-00000000-0",
 		"db": {
 			"host": "localhost",

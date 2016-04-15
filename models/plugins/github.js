@@ -1,9 +1,17 @@
 "use strict";
 
+const pluginOptions = require("../../config.json").site.pluginOptions.github;
+
 module.exports.process = (header, data) => {
 	// TODO: check for user agency (hookshot)
 	// TODO: check for hash correctness
 	// assume all checks have passed here
+	for (let i = 0; i < pluginOptions.ignoredRepos.length; i++) {
+		if (data.repository.name.indexOf(pluginOptions.ignoredRepos[i]) === 0) {
+			return {error: true, message: "Ignored repository found"};
+		}
+	}
+
 	const returnObj = githubProcessing[header["x-github-event"]](data);
 	returnObj.error = false;
 	returnObj.icon = "fa-github";
