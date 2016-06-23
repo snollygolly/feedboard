@@ -1,6 +1,17 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
 
+// MATERIAL-UI
+// theme
+import lightBaseTheme from "material-ui/styles/baseThemes/lightBaseTheme";
+import { getMuiTheme, MuiThemeProvider } from "material-ui/styles";
+import { grey800 } from "material-ui/styles/colors";
+// components
+import {
+	Card, CardActions, CardHeader, CardText, CardTitle,
+	FontIcon
+} from "material-ui";
+
 import moment from "moment";
 
 class ActivityComponent extends React.Component {
@@ -17,24 +28,37 @@ class ActivityComponent extends React.Component {
 	}
 
 	render() {
+		const cardHeaderStyle = {
+			backgroundColor: this.context.muiTheme.palette.accent2Color
+		};
+		const cardTextStyle = {
+			paddingLeft: "8rem",
+			minHeight: "8rem",
+			position: "relative"
+		};
 		return (
-			<div className="feed-panel panel panel-default">
-				<div className="panel-heading">
-					<small className="pull-right">{moment(this.props.data.timestamp).format("MMMM Do YYYY, h:mm:ss a")}</small>
-					<p className="panel-title">
-						<span className={this.state.iconClass}></span>
-						{this.props.data.title}
-					</p>
-				</div>
-				<div className="panel-body">
-					<img className="panel-avatar" src={this.props.data.avatar} />
+			<Card>
+				<CardHeader
+					avatar={ <FontIcon className={this.state.iconClass} color={ grey800 } /> }
+					title={ this.props.data.title }
+					titleColor={ grey800 }
+					children={ <small className="pull-right" style={{ color: grey800 }}>{moment(this.props.data.timestamp).format("MMMM Do YYYY, h:mm:ss a")}</small> }
+					style={ cardHeaderStyle }
+				>
+				</CardHeader>
+				<CardText style={ cardTextStyle }>
+					<img className="activity-card-avatar" src={this.props.data.avatar} />
 					<ReactMarkdown
 						source={this.props.data.content}
 					/>
-				</div>
-			</div>
+				</CardText>
+			</Card>
 		);
 	}
 }
+
+ActivityComponent.contextTypes = {
+	muiTheme: React.PropTypes.object.isRequired
+};
 
 export default ActivityComponent;

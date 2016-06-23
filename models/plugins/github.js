@@ -1,13 +1,13 @@
 "use strict";
 
-const pluginOptions = require("../../config.json").site.pluginOptions.github;
+const plugin_options = require("../../config.json").site.plugin_options.github;
 
 module.exports.process = (header, data) => {
 	// TODO: check for user agency (hookshot)
 	// TODO: check for hash correctness
 	// assume all checks have passed here
-	for (let i = 0; i < pluginOptions.ignoredRepos.length; i++) {
-		if (data.repository.name.indexOf(pluginOptions.ignoredRepos[i]) === 0) {
+	for (let i = 0; i < plugin_options.ignoredRepos.length; i++) {
+		if (data.repository.name.indexOf(plugin_options.ignoredRepos[i]) === 0) {
 			return {error: true, message: "Ignored repository found"};
 		}
 	}

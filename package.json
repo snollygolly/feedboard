@@ -28,7 +28,9 @@
   },
   "homepage": "https://github.com/snollygolly/feedboard#readme",
   "dependencies": {
+    "babel-core": "^6.10.4",
     "co": "^4.6.0",
+    "feedparser": "^1.1.4",
     "koa": "^1.1.2",
     "koa-bodyparser": "^2.0.1",
     "koa-generic-session": "^1.10.0",
@@ -37,12 +39,16 @@
     "koa-socket": "^4.2.1",
     "koa-static-folder": "^0.1.6",
     "lodash": "^4.8.2",
+    "material-ui": "^0.15.1",
     "moment": "^2.12.0",
-    "react": "^15.0.1",
+    "react": "^15.1.0",
     "react-bootstrap": "^0.28.5",
-    "react-dom": "^15.0.1",
+    "react-dom": "^15.1.0",
     "react-markdown": "^2.1.1",
-    "rethinkdb": "^2.2.3"
+    "react-tap-event-plugin": "^1.0.0",
+    "rethinkdb": "^2.2.3",
+    "rethinkdbdash": "^2.3.9",
+    "webpack": "^1.13.1"
   },
   "devDependencies": {
     "babel-core": "^6.7.2",

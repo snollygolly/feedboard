@@ -1,6 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+// MATERIAL-UI
+// theme
+import lightBaseTheme from "material-ui/styles/baseThemes/lightBaseTheme";
+import { getMuiTheme, MuiThemeProvider } from "material-ui/styles";
+import { grey50 } from "material-ui/styles/colors";
+// components
+import {
+	Card, CardTitle,
+	MenuItem,
+	Paper,
+	SelectField
+} from "material-ui";
+
 import _ from "lodash";
 import moment from "moment";
 
@@ -38,6 +51,10 @@ class AppComponent extends React.Component {
     this._buildFilters = this._buildFilters.bind(this);
     this._doFilter = this._doFilter.bind(this);
   }
+
+	getChildContext() {
+		return { muiTheme: getMuiTheme(lightBaseTheme) };
+	}
 
 	componentDidMount() {
 		socket.emit("bootstrap", "go");
@@ -81,20 +98,20 @@ class AppComponent extends React.Component {
 			activity = activity.slice(0, 25);
 
 			let filters = this._buildFilters(activity);
-			
+
 			this.setState({
 				activity: activity,
 				filters: filters
 			});
 
 			this._buildNotification({
-				title: "New Feedoard Activity",
+				title: "New Feedboard Activity",
 				options: {
 					icon: data.avatar,
 					body: `${data.title}`
 				}
 			});
-			
+
 			this._doFilter(this.state.activeFilter);
 		} else {
 			console.error("error: " + data.message);
@@ -138,9 +155,9 @@ class AppComponent extends React.Component {
 
 	_buildFilters(activity) {
 		let filters = this.state.filters;
-		
+
 		filters.plugin = _.chain(activity)
-			.map('plugin')
+			.map("plugin")
 			.uniq()
 			.sortBy()
 			.value();
@@ -148,76 +165,112 @@ class AppComponent extends React.Component {
 		return filters;
 	}
 
-	_doFilter(event) {
-		let activity = this.state.activity;
-		let filteredActivity = _.cloneDeep(activity);
-		let pluginName = typeof event === "object" ? event.target.value : event;
+	_doFilter(event, index, value) {
+		const activity = this.state.activity;
+		let filteredActivity;
 
-		if (pluginName && pluginName !== "") {
-			filteredActivity = _.filter(activity, {plugin: pluginName});
+		if (value === "") {
+			filteredActivity = activity;
+		} else {
+			filteredActivity = _.filter(activity, {plugin: value});
 		}
 
 		this.setState({
-			activeFilter: pluginName,
+			activeFilter: value,
 			filteredActivity: filteredActivity
 		});
 	}
 
 	render() {
 		return (
-		  <div className="container-fluid">
+		  <div className="container-fluid" style={{ backgroundColor: grey50 }}>
 		  	<div id="alert-container" className="row">
 		  		{
 		  			this.state.alerts.map((alert, index) => {
 		  				return (
 		  					<AlertComponent
-		  						key={index}
-		  						data={alert}
-		  						removeTask={this._removeAlert}
+		  						key={ index }
+		  						data={ alert }
+		  						removeTask={ this._removeAlert }
 		  					/>
 	  					);
 		  			})
 		  		}
 		  	</div>
-		  	<div id="filter-container" className="row">
-		  		<div className="col-xs-12 col-md-3">
-		  			<span className="current-time">{this.state.currentTime}</span>
-		  		</div>
-		  		<div className="col-xs-12 col-md-3 col-md-offset-6">
-			  		<form>
-			  			<select defaultValue="" onChange={this._doFilter} className="form-control">
-			  				<option value="">Filter by Plugin</option>
-			  				{
-			  					this.state.filters.plugin.map((pluginName, index) => {
-			  						return (
-			  						  <option
-			  						  	key={index}
-			  						  	value={pluginName}
-			  						  >
-			  						  	{pluginName}
-			  						  </option>
-			  						);
-			  					})
-			  				}
-			  			</select>
-			  			</form>
-		  		</div>
-		  	</div>
-				<div id="feed-container" className="row">
-					{
-						this.state.filteredActivity.map((activity, index) => {
-							return (
-								<ActivityComponent
-									key={index}
-									data={activity}
-								/>
-							);
-						})
-					}
+				<div className="row">
+					<div className="col-xs-12 col-md-8 feed-panel">
+				  	<div id="filter-container" className="row feed-panel-header">
+				  		<div className="col-xs-12 col-sm-3">
+				  			<span className="current-time">{ this.state.currentTime }</span>
+				  		</div>
+				  		<div className="col-xs-12 col-sm-3 col-sm-offset-6">
+					  		<form style={{ textAlign: "right" }}>
+					  			<SelectField
+										value={ this.state.activeFilter }
+										onChange={ this._doFilter }
+										style={{ textAlign: "left" }}
+										fullWidth={ true }
+									>
+					  				<MenuItem value="" primaryText="Filter by Plugin"/>
+					  				{
+					  					this.state.filters.plugin.map((pluginName, index) => {
+					  						return (
+					  						  <MenuItem
+					  						  	key={ index }
+					  						  	value={ pluginName }
+														primaryText={ pluginName }
+					  						  />
+					  						);
+					  					})
+					  				}
+					  			</SelectField>
+				  			</form>
+				  		</div>
+				  	</div>
+						<div id="feed-container" className="row feed-panel-body">
+							{
+								this.state.filteredActivity.map((activity, index) => {
+									return (
+										<div className="col-xs-12 activity-card-container" key={ index }>
+											<ActivityComponent
+												data={ activity }
+											/>
+										</div>
+									);
+								})
+							}
+						</div>
+					</div>
+					<Paper className="col-xs-12 col-md-4 feed-panel">
+						<div className="row feed-panel-header">
+							<div className="col-xs-3 col-xs-offset-9 col-md-6 col-md-offset-6">
+								<form style={{ textAlign: "right" }}>
+									<SelectField
+										value=""
+										style={{ textAlign: "left" }}
+										fullWidth={ true }
+									>
+										<MenuItem value="" primaryText="Filter by Feed"/>
+									</SelectField>
+								</form>
+							</div>
+						</div>
+						<div id="rss-container" className="row feed-panel-body">
+							<div className="col-xs-12 activity-card-container">
+								<Card>
+									<CardTitle title="RSS" />
+								</Card>
+							</div>
+						</div>
+					</Paper>
 				</div>
 			</div>
 		);
 	}
 }
+
+AppComponent.childContextTypes = {
+	muiTheme: React.PropTypes.object.isRequired
+};
 
 export default AppComponent;

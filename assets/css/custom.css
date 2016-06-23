@@ -5,8 +5,8 @@ html {
 
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 1rem;
-  padding: 1rem;
+  /*margin-bottom: 1rem;
+  padding: 1rem;*/
 }
 
 #alert-container {
@@ -18,20 +18,24 @@ body {
   z-index: 1000;
 }
 
-.panel-title > span.fa {
-	margin-right: 1rem;
+.feed-panel .feed-panel-body {
+  height: calc(100vh - 48px);
+  overflow-y: scroll;
 }
 
-.panel-body {
-	padding-left: 8rem;
+.activity-card-container {
+  margin: 1rem auto;
+}
+
+.activity-card-body {
   position: relative;
   min-height: 8rem;
 }
 
-.panel-avatar {
-	height: 8rem;
-  width: 8rem;
-  padding: 1rem;
+.activity-card-avatar {
+  height: 6rem;
+  width: 6rem;
+  margin: 0 1rem;
   position: absolute;
   left: 0;
   top: 50%;
@@ -39,7 +43,13 @@ body {
 }
 
 .current-time {
-  height: 38px;
-  line-height: 38px;
+  height: 48px;
+  line-height: 48px;
   font-size: 2rem;
+}
+
+@media (max-width: 991px) {
+  .feed-panel .feed-panel-body {
+    height: calc(50vh - 48px);
+  }
 }
