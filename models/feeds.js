@@ -2,7 +2,7 @@
 
 const config = require("../config.json");
 
-const r = require("rethinkdb");
+const r = require("rethinkdbdash")(config.site.db);
 const moment = require("moment");
 
 const plugins = {};
@@ -28,53 +28,28 @@ module.exports.getItems = function* getItems(limit) {
 	return results;
 };
 
-module.exports.getItem = (id) => {
-
-};
-
-let connection;
-
-function* createConnection() {
-	try {
-		// Open a connection and wait for r.connect(...) to be resolve
-		connection = yield r.connect(config.site.db);
-	}catch (err) {
-		console.error(err);
-	}
-}
-
 function* createActivity(activity) {
-	// set up the connection
-	yield createConnection();
 	// set the time on it
 	activity.timestamp = moment().valueOf();
 	// write to the db
-	const result = yield r.table("activity").insert(activity, {returnChanges: true}).run(connection);
-	connection.close();
+	const result = yield r.table("activity").insert(activity, {returnChanges: true}).run();
 	return result.changes[0].new_val;
 }
 
 function* getActivity(id) {
-	// set up the connection
-	yield createConnection();
 	// check to see if the document exists
-	const result = yield r.table("activity").get(id).run(connection);
+	const result = yield r.table("activity").get(id).run();
 	if (result === null) {
 		throw new Error("Activity not found / feedModel.getActivity");
 	}
-	connection.close();
 	return result;
 }
 
 function* getRecentActivites(limit) {
-	// set up the connection
-	yield createConnection();
 	// check to see if the document exists
-	const cursor = yield r.table("activity").orderBy({index: r.desc("timestamp")}).limit(limit).run(connection);
-	const results = yield cursor.toArray();
+	const results = yield r.table("activity").orderBy({index: r.desc("timestamp")}).limit(limit).run();
 	if (results === null) {
 		throw new Error("Activity not found / feedModel.getRecentActivites");
 	}
-	connection.close();
 	return results;
 }
