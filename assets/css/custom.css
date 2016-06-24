@@ -23,16 +23,27 @@ body {
   overflow-y: scroll;
 }
 
-.activity-card-container {
+.activity-card-container,
+.rss-card-container {
   margin: 1rem auto;
 }
 
-.activity-card-body {
+/*.activity-card-body,
+.rss-card-body {
   position: relative;
   min-height: 8rem;
+}*/
+
+.rss-card-body img {
+  /*max-width: 50%;
+  max-height: 25vh;
+  display: block;
+  margin: 0 auto;*/
+  display: none;
 }
 
-.activity-card-avatar {
+.activity-card-avatar,
+.rss-card-avatar {
   height: 6rem;
   width: 6rem;
   margin: 0 1rem;
@@ -40,6 +51,10 @@ body {
   left: 0;
   top: 50%;
   transform: translateY(-50%);
+}
+
+.rss-card-avatar {
+  height: auto;
 }
 
 .current-time {

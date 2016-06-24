@@ -1,3 +1,5 @@
+"use strict";
+
 import React from "react";
 import ReactDOM from "react-dom";
 
@@ -19,6 +21,7 @@ import moment from "moment";
 
 import ActivityComponent from "../ActivityComponent";
 import AlertComponent from "../AlertComponent";
+import RSSComponent from "../RSSComponent";
 
 let socket;
 
@@ -38,7 +41,8 @@ class AppComponent extends React.Component {
 			filters: {
 				plugin: [],
 				user: []
-			}
+			},
+			rss: []
 		};
 
 		// Bind functions to this
@@ -80,12 +84,15 @@ class AppComponent extends React.Component {
 
 	// Socket callbacks
 	_bootstrap(data) {
-		let activity = JSON.parse(data);
+		const [rss, activity] = _.partition(JSON.parse(data), (feedData) => {
+			return feedData.plugin === "rss";
+		});
 
 		let filters = this._buildFilters(activity);
 
 		this.setState({
 			activity: activity,
+			rss: rss,
 			filteredActivity: activity,
 			filters: filters
 		});
@@ -93,26 +100,34 @@ class AppComponent extends React.Component {
 
 	_update(data) {
 		if (data.error === false) {
-			let activity = this.state.activity;
-			activity.unshift(data);
-			activity = activity.slice(0, 25);
+			if (data.plugin === "rss") {
+				let rss = this.state.rss;
+				rss.unshift(data);
+				rss = rss.slice(0, 25);
 
-			let filters = this._buildFilters(activity);
+				this.setState({ rss });
+			} else {
+				let activity = this.state.activity;
+				activity.unshift(data);
+				activity = activity.slice(0, 25);
 
-			this.setState({
-				activity: activity,
-				filters: filters
-			});
+				let filters = this._buildFilters(activity);
 
-			this._buildNotification({
-				title: "New Feedboard Activity",
-				options: {
-					icon: data.avatar,
-					body: `${data.title}`
-				}
-			});
+				this.setState({
+					activity: activity,
+					filters: filters
+				});
 
-			this._doFilter(this.state.activeFilter);
+				this._buildNotification({
+					title: "New Feedboard Activity",
+					options: {
+						icon: data.avatar,
+						body: `${data.title}`
+					}
+				});
+
+				this._doFilter(this.state.activeFilter);
+			}
 		} else {
 			console.error("error: " + data.message);
 			console.error(data);
@@ -256,11 +271,17 @@ class AppComponent extends React.Component {
 							</div>
 						</div>
 						<div id="rss-container" className="row feed-panel-body">
-							<div className="col-xs-12 activity-card-container">
-								<Card>
-									<CardTitle title="RSS" />
-								</Card>
-							</div>
+							{
+								this.state.rss.map((rss_data, index) => {
+									return (
+										<div key={ index } className="col-xs-12 rss-card-container">
+											<RSSComponent
+												data={ rss_data }
+											/>
+										</div>
+									);
+								})
+							}
 						</div>
 					</Paper>
 				</div>

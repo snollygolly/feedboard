@@ -21,7 +21,7 @@
     "no-throw-literal": 2,
     "wrap-iife": [2, "outside"],
     "no-catch-shadow": 2,
-    "indent": [2, "tab"],
+    "indent": [2, 2],
     "quotes": [2, "double"],
     "consistent-this": [2, "self"],
     "func-names": 2,

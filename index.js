@@ -92,7 +92,7 @@ if (process.env.NODE_ENV === "local") {
 		}
 		console.log(`Webpack Dev Server (Hot-Reload) listening on port ${config.site.port + 1}`);
 	});
-} 
+}
 
 process.on("SIGINT", function end() {
 	process.exit();
