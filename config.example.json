@@ -5,8 +5,9 @@
 		"secret": "feedboard-is-billboards-for-feeds",
 		"rss": [
 			{
-				"name": "Engadget",
-				"url": "https://www.engadget.com/rss.xml"
+				"provider": "Engadget",
+				"url": "https://www.engadget.com/rss.xml",
+				"read_more": true
 			}
 		],
 		"rss_options": {
