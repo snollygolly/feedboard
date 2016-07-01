@@ -1,5 +1,7 @@
 "use strict";
 
+import config from "../../../config.json";
+
 import React from "react";
 import ReactDOM from "react-dom";
 
@@ -7,7 +9,7 @@ import ReactDOM from "react-dom";
 // theme
 import lightBaseTheme from "material-ui/styles/baseThemes/lightBaseTheme";
 import { getMuiTheme, MuiThemeProvider } from "material-ui/styles";
-import { grey50 } from "material-ui/styles/colors";
+import { grey50, grey100 } from "material-ui/styles/colors";
 // components
 import {
 	Card, CardTitle,
@@ -33,27 +35,69 @@ class AppComponent extends React.Component {
 
     // Initial State
     this.state = {
-    	activeFilter: "",
 			activity: [],
-			alerts: [],
-			currentTime: moment().format("h:mm:ss a"),
-			filteredActivity: [],
-			filters: {
-				plugin: [],
-				user: []
+			rss: [],
+			rssEnabled: config.site.rss && config.site.rss.length > 0,
+    	activeFilter: {
+				activity: "",
+				rss: ""
 			},
-			rss: []
+			filteredData: {
+				activity: [],
+				rss: []
+			},
+			filters: {
+				activity: [],
+				rss: []
+			},
+			filterValue: {
+				activity: "plugin",
+				rss: "provider"
+			},
+			alerts: [],
+			currentTime: moment().format("h:mm:ss a")
 		};
 
+		this._doFilter = {
+			activity: (event, index, value) => {
+				_doFilterSpecific(value, "activity");
+			},
+			rss: (event, index, value) => {
+				_doFilterSpecific(value, "rss");
+			}
+		};
+
+		function _doFilterSpecific(value, type) {
+			const data = this.state[type];
+			const filteredData = this.state.filteredData;
+			const activeFilter = this.state.activeFilter;
+
+			activeFilter[type] = value;
+			let filterValue = {};
+			filterValue[this.state.filterValue[type]] = value;
+
+			if (value === "") {
+				filteredData[type] = data;
+			} else {
+				filteredData[type] = _.filter(data, filterValue);
+			}
+
+			this.setState({
+				activeFilter: activeFilter,
+				filteredData: filteredData
+			});
+		}
+
 		// Bind functions to this
-    this._bootstrap = this._bootstrap.bind(this);
-    this._update = this._update.bind(this);
+    this._bootstrapReceived = this._bootstrapReceived.bind(this);
+    this._updateReceived = this._updateReceived.bind(this);
+		this._updateItem = this._updateItem.bind(this);
     this._buildNotification = this._buildNotification.bind(this);
     this._createAlert = this._createAlert.bind(this);
     this._removeAlert = this._removeAlert.bind(this);
-    this._restart = this._restart.bind(this);
+    this._restartReceived = this._restartReceived.bind(this);
     this._buildFilters = this._buildFilters.bind(this);
-    this._doFilter = this._doFilter.bind(this);
+		_doFilterSpecific = _doFilterSpecific.bind(this);
   }
 
 	getChildContext() {
@@ -63,9 +107,9 @@ class AppComponent extends React.Component {
 	componentDidMount() {
 		socket.emit("bootstrap", "go");
 
-		socket.on("bootstrap", this._bootstrap);
-		socket.on("restart", this._restart);
-		socket.on("update", this._update);
+		socket.on("bootstrap", this._bootstrapReceived);
+		socket.on("restart", this._restartReceived);
+		socket.on("update", this._updateReceived);
 
 		if ("Notification" in window) {
 			if (Notification.permission !== "granted" && Notification.permission !== "denied") {
@@ -83,35 +127,60 @@ class AppComponent extends React.Component {
 	}
 
 	// Socket callbacks
-	_bootstrap(data) {
-		const [rss, activity] = _.partition(JSON.parse(data), (feedData) => {
-			return feedData.plugin === "rss";
+	_bootstrapReceived(data) {
+		const currentState = this.state;
+		const [activity, rss] = _.partition(JSON.parse(data), (feedData) => {
+			return feedData.plugin !== "rss";
 		});
 
-		let filters = this._buildFilters(activity);
+		currentState.filters = this._buildFilters(activity, rss);
+
+		currentState.filteredData.activity = activity;
+		currentState.filteredData.rss = rss;
 
 		this.setState({
 			activity: activity,
 			rss: rss,
-			filteredActivity: activity,
-			filters: filters
+			filteredData: currentState.filteredData,
+			filters: currentState.filters
 		});
 	}
 
-	_update(data) {
+	_updateReceived(data) {
+		if (Array.isArray(data)) {
+			for (const item of data) {
+				this._updateItem(item);
+			}
+		} else {
+			this._updateItem(data);
+		}
+	}
+
+	_updateItem(data) {
 		if (data.error === false) {
+			let filters = this.state.filters;
+			// RSS update
 			if (data.plugin === "rss") {
 				let rss = this.state.rss;
 				rss.unshift(data);
 				rss = rss.slice(0, 25);
 
-				this.setState({ rss });
-			} else {
+				filters = this._buildFilters(undefined, rss);
+
+				this.setState({
+					rss: rss,
+					filters: filters
+				});
+
+				this._doFilter.rss(undefined, undefined, this.state.activeFilter.rss);
+			}
+			// Activity update
+			else {
 				let activity = this.state.activity;
 				activity.unshift(data);
 				activity = activity.slice(0, 25);
 
-				let filters = this._buildFilters(activity);
+				filters = this._buildFilters(activity, undefined);
 
 				this.setState({
 					activity: activity,
@@ -126,7 +195,7 @@ class AppComponent extends React.Component {
 					}
 				});
 
-				this._doFilter(this.state.activeFilter);
+				this._doFilter.activity(undefined, undefined, this.state.activeFilter.activity);
 			}
 		} else {
 			console.error("error: " + data.message);
@@ -160,7 +229,7 @@ class AppComponent extends React.Component {
 		this.setState({alerts: alerts});
 	}
 
-	_restart(data) {
+	_restartReceived(data) {
 		let alerts = this.state.alerts;
 		data.type = "info";
 		data.message = {__html: "Feedboard has been updated! <a href=\"javascript:window.location.reload(true);\" class=\"alert-link\">Refresh</a> your browser to get the latest."};
@@ -168,37 +237,31 @@ class AppComponent extends React.Component {
 		this.setState({alerts: alerts});
 	}
 
-	_buildFilters(activity) {
-		let filters = this.state.filters;
+	_buildFilters(activity, rss) {
+		const filters = this.state.filters;
 
-		filters.plugin = _.chain(activity)
-			.map("plugin")
-			.uniq()
-			.sortBy()
-			.value();
+		if (activity) {
+			filters.activity = _.chain(activity)
+				.map("plugin")
+				.uniq()
+				.sortBy()
+				.value();
+			}
+
+		if (rss) {
+			filters.rss = _.chain(rss)
+				.map("provider")
+				.uniq()
+				.sortBy()
+				.value();
+		}
 
 		return filters;
 	}
 
-	_doFilter(event, index, value) {
-		const activity = this.state.activity;
-		let filteredActivity;
-
-		if (value === "") {
-			filteredActivity = activity;
-		} else {
-			filteredActivity = _.filter(activity, {plugin: value});
-		}
-
-		this.setState({
-			activeFilter: value,
-			filteredActivity: filteredActivity
-		});
-	}
-
 	render() {
 		return (
-		  <div className="container-fluid" style={{ backgroundColor: grey50 }}>
+		  <div className="container-fluid">
 		  	<div id="alert-container" className="row">
 		  		{
 		  			this.state.alerts.map((alert, index) => {
@@ -213,7 +276,7 @@ class AppComponent extends React.Component {
 		  		}
 		  	</div>
 				<div className="row">
-					<div className="col-xs-12 col-md-8 feed-panel">
+					<div className={ this.state.rssEnabled ? "col-xs-12 col-md-8 feed-panel" : "col-xs-12 feed-panel" } >
 				  	<div id="filter-container" className="row feed-panel-header">
 				  		<div className="col-xs-12 col-sm-3">
 				  			<span className="current-time">{ this.state.currentTime }</span>
@@ -221,14 +284,14 @@ class AppComponent extends React.Component {
 				  		<div className="col-xs-12 col-sm-3 col-sm-offset-6">
 					  		<form style={{ textAlign: "right" }}>
 					  			<SelectField
-										value={ this.state.activeFilter }
-										onChange={ this._doFilter }
+										value={ this.state.activeFilter.activity }
+										onChange={ this._doFilter.activity }
 										style={{ textAlign: "left" }}
 										fullWidth={ true }
 									>
 					  				<MenuItem value="" primaryText="Filter by Plugin"/>
 					  				{
-					  					this.state.filters.plugin.map((pluginName, index) => {
+					  					this.state.filters.activity.map((pluginName, index) => {
 					  						return (
 					  						  <MenuItem
 					  						  	key={ index }
@@ -244,7 +307,7 @@ class AppComponent extends React.Component {
 				  	</div>
 						<div id="feed-container" className="row feed-panel-body">
 							{
-								this.state.filteredActivity.map((activity, index) => {
+								this.state.filteredData.activity.map((activity, index) => {
 									return (
 										<div className="col-xs-12 activity-card-container" key={ index }>
 											<ActivityComponent
@@ -256,34 +319,48 @@ class AppComponent extends React.Component {
 							}
 						</div>
 					</div>
-					<Paper className="col-xs-12 col-md-4 feed-panel">
-						<div className="row feed-panel-header">
-							<div className="col-xs-3 col-xs-offset-9 col-md-6 col-md-offset-6">
-								<form style={{ textAlign: "right" }}>
-									<SelectField
-										value=""
-										style={{ textAlign: "left" }}
-										fullWidth={ true }
-									>
-										<MenuItem value="" primaryText="Filter by Feed"/>
-									</SelectField>
-								</form>
+					{ this.state.rssEnabled ?
+						<Paper className="col-xs-12 col-md-4 feed-panel" style={{ backgroundColor: grey100 }}>
+							<div className="row feed-panel-header">
+								<div className="col-xs-3 col-xs-offset-9 col-md-6 col-md-offset-6">
+									<form style={{ textAlign: "right" }}>
+										<SelectField
+											value={ this.state.activeFilter.rss }
+											onChange={ this._doFilter.rss }
+											style={{ textAlign: "left" }}
+											fullWidth={ true }
+										>
+											<MenuItem value="" primaryText="Filter by Feed"/>
+											{
+												this.state.filters.rss.map((feedName, index) => {
+													return (
+														<MenuItem
+															key={ index }
+															value={ feedName }
+															primaryText={ feedName }
+														/>
+													)
+												})
+											}
+										</SelectField>
+									</form>
+								</div>
 							</div>
-						</div>
-						<div id="rss-container" className="row feed-panel-body">
-							{
-								this.state.rss.map((rss_data, index) => {
-									return (
-										<div key={ index } className="col-xs-12 rss-card-container">
-											<RSSComponent
-												data={ rss_data }
-											/>
-										</div>
-									);
-								})
-							}
-						</div>
-					</Paper>
+							<div id="rss-container" className="row feed-panel-body">
+								{
+									this.state.filteredData.rss.map((rss_data, index) => {
+										return (
+											<div key={ index } className="col-xs-12 rss-card-container">
+												<RSSComponent
+													data={ rss_data }
+												/>
+											</div>
+										);
+									})
+								}
+							</div>
+						</Paper> : null
+					}
 				</div>
 			</div>
 		);

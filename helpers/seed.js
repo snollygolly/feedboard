@@ -15,12 +15,12 @@ co(function* coWrap() {
 	try {
 		yield r.db(config.site.db.db).tableCreate("activity").run();
 		console.log("Table 'activity' created successfully.");
+
 		// create the secondary indexes
 		yield r.db(config.site.db.db).table("activity").indexCreate("timestamp").run();
 		yield r.db(config.site.db.db).table("activity").indexCreate("provider").run();
 		yield r.db(config.site.db.db).table("activity").indexCreate("user_id").run();
 		console.log("Table 'activity' indexes created successfully.");
-
 	} catch (err) {
 		console.log(`Warning! ${err}`);
 	}
@@ -28,11 +28,12 @@ co(function* coWrap() {
 	try {
 		yield r.db(config.site.db.db).tableCreate("rss").run();
 		console.log("Table 'rss' created successfully.");
+
 		// create the secondary indexes
 		yield r.db(config.site.db.db).table("rss").indexCreate("timestamp").run();
 		yield r.db(config.site.db.db).table("rss").indexCreate("provider").run();
+		yield r.db(config.site.db.db).table("rss").indexCreate("link").run();
 		console.log("Table 'rss' indexes created successfully.");
-
 	} catch (err) {
 		console.log(`Warning! ${err}`);
 	}

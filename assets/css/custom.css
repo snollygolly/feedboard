@@ -55,6 +55,7 @@ body {
 
 .rss-card-avatar {
   height: auto;
+  word-break: break-all;
 }
 
 .current-time {

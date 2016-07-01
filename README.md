@@ -9,6 +9,8 @@ __Feedboard__ is a web application that can be used in a kiosk setting to show l
 * [Slack](https://api.slack.com/outgoing-webhooks) (outgoing webhooks)
 * [Taiga](http://taigaio.github.io/taiga-doc/dist/webhooks.html) _(WIP, not fully implemented yet)_
 
+__Feedboard__ also supports RSS feeds which will be displayed on the right side of the screen. This can be enabled by adding the feeds to the config file.
+
 ## Requirements
 * [Node.js](https://nodejs.org/en/) (Version 5 and up recommended)
 * [Bower](http://bower.io/)

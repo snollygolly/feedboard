@@ -6,8 +6,7 @@
 		"rss": [
 			{
 				"provider": "Engadget",
-				"url": "https://www.engadget.com/rss.xml",
-				"read_more": true
+				"url": "https://www.engadget.com/rss.xml"
 			}
 		],
 		"rss_options": {

@@ -45,7 +45,11 @@ class RSSComponent extends React.Component {
 				>
 				</CardHeader>
 				<CardText style={ cardTextStyle }>
-					<img className="rss-card-avatar" src={this.props.data.avatar} />
+					<img
+						className="rss-card-avatar"
+						alt={ this.props.data.provider }
+						src={ this.props.data.avatar }
+					/>
 					<p
 						dangerouslySetInnerHTML={{ __html: this.props.data.content }}
 						className="rss-card-body"

@@ -4,7 +4,7 @@ const config = require("../config.json");
 const app = require("../index").app;
 const io = app.io;
 const feeds = require("../models/feeds.js");
-const rss = require("../controllers/rss.js");
+const rss = require("../models/rss.js");
 
 const co = require("co");
 
@@ -19,15 +19,14 @@ io.on("disconnect", (ctx, data) => {
 io.on("bootstrap", co.wrap(function* co(ctx, data) {
   let results = yield feeds.getItems(config.site.options.results_on_bootstrap);
   try {
-		console.log("Trying to get rss feeds");
-    const rss_results = yield rss.init();
-		console.log("Received rss feeds");
-    results = results.concat(rss_results);
+    if (config.site.rss && config.site.rss.length > 0) {
+      const rss_results = yield rss.getItems(config.site.options.results_on_bootstrap);
+      results = results.concat(rss_results);
+    }
   } catch (e) {
     console.log(`WARNING: ${e}`);
-	} finally {
-		console.log("emitting bootstrap data");
-	  io.socket.emit("bootstrap", JSON.stringify(results));
+  } finally {
+    io.socket.emit("bootstrap", JSON.stringify(results));
   }
 }));
 
