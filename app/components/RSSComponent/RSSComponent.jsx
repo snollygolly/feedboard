@@ -14,22 +14,20 @@ import {
 
 import moment from "moment";
 
-class ActivityComponent extends React.Component {
+class RSSComponent extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			iconClass: `fa fa-lg ${this.props.data.icon}`
-		};
-	}
-
-	componentWillReceiveProps(nextProps) {
-		this.setState({iconClass: `fa fa-lg ${nextProps.data.icon}`});
+		this.state = {};
 	}
 
 	render() {
 		const cardHeaderStyle = {
 			backgroundColor: this.context.muiTheme.palette.accent2Color
+		};
+		const cardHeaderTextStyle = {
+			maxWidth: "60%",
+			paddingRight: "0px"
 		};
 		const cardTextStyle = {
 			paddingLeft: "8rem",
@@ -39,17 +37,22 @@ class ActivityComponent extends React.Component {
 		return (
 			<Card>
 				<CardHeader
-					avatar={ <FontIcon className={this.state.iconClass} color={ grey800 } /> }
 					title={ this.props.data.title }
 					titleColor={ grey800 }
+					textStyle={ cardHeaderTextStyle }
 					children={ <small className="pull-right" style={{ color: grey800 }}>{moment(this.props.data.timestamp).format("MMMM Do YYYY, h:mm:ss a")}</small> }
 					style={ cardHeaderStyle }
 				>
 				</CardHeader>
 				<CardText style={ cardTextStyle }>
-					<img className="activity-card-avatar" src={this.props.data.avatar} />
-					<ReactMarkdown
-						source={this.props.data.content}
+					<img
+						className="rss-card-avatar"
+						alt={ this.props.data.provider }
+						src={ this.props.data.avatar }
+					/>
+					<p
+						dangerouslySetInnerHTML={{ __html: this.props.data.content }}
+						className="rss-card-body"
 					/>
 				</CardText>
 			</Card>
@@ -57,8 +60,8 @@ class ActivityComponent extends React.Component {
 	}
 }
 
-ActivityComponent.contextTypes = {
+RSSComponent.contextTypes = {
 	muiTheme: React.PropTypes.object.isRequired
 };
 
-export default ActivityComponent;
+export default RSSComponent;

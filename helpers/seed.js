@@ -1,33 +1,43 @@
 "use strict";
 
 const config = require("../config.json");
-const r = require("rethinkdb");
+const r = require("rethinkdbdash")(config.site.db);
 const co = require("co");
 
 co(function* coWrap() {
-	const connection = yield r.connect(config.site.db);
-
 	try {
-		yield r.dbCreate(config.site.db.db).run(connection);
+		yield r.dbCreate(config.site.db.db).run();
 		console.log(`Database '${config.site.db.db}' created successfully.`);
 	} catch (err) {
 		console.log(`Warning! ${err}`);
 	}
 
 	try {
-		yield r.db(config.site.db.db).tableCreate("activity").run(connection);
+		yield r.db(config.site.db.db).tableCreate("activity").run();
 		console.log("Table 'activity' created successfully.");
-		// create the secondary indexes
-		yield r.db(config.site.db.db).table("activity").indexCreate("timestamp").run(connection);
-		yield r.db(config.site.db.db).table("activity").indexCreate("provider").run(connection);
-		yield r.db(config.site.db.db).table("activity").indexCreate("user_id").run(connection);
-		console.log("Table 'activity' indexes created successfully.");
 
+		// create the secondary indexes
+		yield r.db(config.site.db.db).table("activity").indexCreate("timestamp").run();
+		yield r.db(config.site.db.db).table("activity").indexCreate("provider").run();
+		yield r.db(config.site.db.db).table("activity").indexCreate("user_id").run();
+		console.log("Table 'activity' indexes created successfully.");
 	} catch (err) {
 		console.log(`Warning! ${err}`);
 	}
 
-	yield connection.close();
+	try {
+		yield r.db(config.site.db.db).tableCreate("rss").run();
+		console.log("Table 'rss' created successfully.");
+
+		// create the secondary indexes
+		yield r.db(config.site.db.db).table("rss").indexCreate("timestamp").run();
+		yield r.db(config.site.db.db).table("rss").indexCreate("provider").run();
+		yield r.db(config.site.db.db).table("rss").indexCreate("link").run();
+		console.log("Table 'rss' indexes created successfully.");
+	} catch (err) {
+		console.log(`Warning! ${err}`);
+	}
+
 	console.log("\nYou're all set!");
 	console.log(`Open http://${config.site.db.host}:8080/#tables to view the database.`);
 	process.exit();
