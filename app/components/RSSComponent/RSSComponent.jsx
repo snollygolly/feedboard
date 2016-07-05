@@ -30,6 +30,13 @@ class RSSComponent extends React.Component {
 			maxWidth: "60%",
 			paddingRight: "0px"
 		};
+		const cardHeaderTimestampStyle = {
+			color: grey800,
+			width: "40%",
+			paddingLeft: "16px",
+			textAlign: "right",
+			whiteSpace: "initial"
+		};
 		const cardTextStyle = {
 			paddingLeft: "8rem",
 			minHeight: "8rem",
@@ -46,7 +53,7 @@ class RSSComponent extends React.Component {
 					textStyle={ cardHeaderTextStyle }
 					style={ cardHeaderStyle }
 				>
-					<small className="pull-right" style={{ color: grey800 }}>{moment(this.props.data.timestamp).format("MMMM Do YYYY, h:mm:ss a")}</small>
+					<small className="pull-right" style={ cardHeaderTimestampStyle }>{moment(this.props.data.timestamp).format("MMMM Do YYYY, h:mm:ss a")}</small>
 				</CardHeader>
 				<CardText style={ cardTextStyle }>
 					<img
