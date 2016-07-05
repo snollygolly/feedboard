@@ -17,14 +17,14 @@ import {
 	MenuItem,
 	Paper,
 	RefreshIndicator,
-	SelectField
+	SelectField,
+	Snackbar
 } from "material-ui";
 
 import _ from "lodash";
 import moment from "moment";
 
 import ActivityComponent from "../ActivityComponent";
-import AlertComponent from "../AlertComponent";
 import RSSComponent from "../RSSComponent";
 
 let socket;
@@ -61,7 +61,12 @@ class AppComponent extends React.Component {
 				activity: "plugin",
 				rss: "provider"
 			},
-			alerts: [],
+			snackbar: {
+				isOpen: false,
+				message: null,
+				actionText: null,
+				actionFunction: undefined
+			},
 			currentTime: moment().format("h:mm:ss a")
 		};
 
@@ -100,8 +105,6 @@ class AppComponent extends React.Component {
     this._updateReceived = this._updateReceived.bind(this);
 		this._updateItem = this._updateItem.bind(this);
     this._buildNotification = this._buildNotification.bind(this);
-    this._createAlert = this._createAlert.bind(this);
-    this._removeAlert = this._removeAlert.bind(this);
 		this._handleRSSModalClose = this._handleRSSModalClose.bind(this);
 		this._handleRSSModalOpen = this._handleRSSModalOpen.bind(this);
 		this._handleRSSModalLoad = this._handleRSSModalLoad.bind(this);
@@ -228,17 +231,6 @@ class AppComponent extends React.Component {
 	  }
 	}
 
-	_createAlert(alert) {
-		return {__html: alert};
-	}
-
-	_removeAlert(e) {
-		let alertIndex = parseInt(e.target.value, 10);
-		let alerts = this.state.alerts;
-		alerts.splice(alertIndex, 1);
-		this.setState({alerts: alerts});
-	}
-
 	_handleRSSModalClose() {
 		const rssModal = this.state.rssModal;
 		rssModal.isOpen = false;
@@ -273,11 +265,15 @@ class AppComponent extends React.Component {
 	}
 
 	_restartReceived(data) {
-		let alerts = this.state.alerts;
-		data.type = "info";
-		data.message = {__html: "Feedboard has been updated! <a href=\"javascript:window.location.reload(true);\" class=\"alert-link\">Refresh</a> your browser to get the latest."};
-		alerts.unshift(data);
-		this.setState({alerts: alerts});
+		const snackbar = this.state.snackbar;
+		snackbar.isOpen = true;
+		snackbar.message = "Feedboard has been updated";
+		snackbar.actionText = "Refresh";
+		snackbar.actionFunction = () => {
+			window.location.reload(true);
+		};
+
+		this.setState({snackbar: snackbar});
 	}
 
 	_buildFilters(activity, rss) {
@@ -318,19 +314,15 @@ class AppComponent extends React.Component {
 		};
 		return (
 		  <div className="container-fluid">
-		  	<div className="row alert-container">
-		  		{
-		  			this.state.alerts.map((alert, index) => {
-		  				return (
-		  					<AlertComponent
-		  						key={ index }
-		  						data={ alert }
-		  						removeTask={ this._removeAlert }
-		  					/>
-	  					);
-		  			})
-		  		}
-		  	</div>
+				{
+					this.state.snackbar.isOpen ?
+					<Snackbar
+						open={ this.state.snackbar.isOpen }
+						message={ this.state.snackbar.message }
+						action={ this.state.snackbar.actionText }
+						onActionTouchTap={ this.state.snackbar.actionFunction }
+					/> : null
+				}
 				{ this.state.rssModal.isOpen ?
 					<Dialog
 						contentStyle={ contentStyle }
@@ -389,7 +381,7 @@ class AppComponent extends React.Component {
 							{
 								this.state.filteredData.activity.map((activity, index) => {
 									return (
-										<div className="col-xs-12 activity-card-container" key={ index }>
+										<div key={ index } className="col-xs-12 activity-card-container">
 											<ActivityComponent
 												data={ activity }
 											/>

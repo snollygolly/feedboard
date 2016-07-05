@@ -44,9 +44,9 @@ class RSSComponent extends React.Component {
 					title={ this.props.data.title }
 					titleColor={ grey800 }
 					textStyle={ cardHeaderTextStyle }
-					children={ <small className="pull-right" style={{ color: grey800 }}>{moment(this.props.data.timestamp).format("MMMM Do YYYY, h:mm:ss a")}</small> }
 					style={ cardHeaderStyle }
 				>
+					<small className="pull-right" style={{ color: grey800 }}>{moment(this.props.data.timestamp).format("MMMM Do YYYY, h:mm:ss a")}</small>
 				</CardHeader>
 				<CardText style={ cardTextStyle }>
 					<img
