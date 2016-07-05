@@ -77,7 +77,7 @@ function* poll() {
           // Remove any `Read More` links from the content
           content = content.replace(/<a[^>]*>(?:[^<]*)Read More(?:[^<]*)<\/a>/, "");
           // Add a `Read More` link to the end of the content
-          content = `${content} <a href="${post.origlink || post.link}" target="_blank">Read More</a>`;
+          // content = `${content} <a href="${post.origlink || post.link}" target="_blank">Read More</a>`;
           // Push the formatted item onto the array
           posts.push({
             error: false,

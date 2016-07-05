@@ -3,13 +3,7 @@ html {
   min-height: 100%;
 }
 
-body {
-  /* Margin bottom by footer height */
-  /*margin-bottom: 1rem;
-  padding: 1rem;*/
-}
-
-#alert-container {
+.alert-container {
   margin: 0;
   position: fixed;
   top: 0;
@@ -28,17 +22,7 @@ body {
   margin: 1rem auto;
 }
 
-/*.activity-card-body,
-.rss-card-body {
-  position: relative;
-  min-height: 8rem;
-}*/
-
 .rss-card-body img {
-  /*max-width: 50%;
-  max-height: 25vh;
-  display: block;
-  margin: 0 auto;*/
   display: none;
 }
 
@@ -56,6 +40,24 @@ body {
 .rss-card-avatar {
   height: auto;
   word-break: break-all;
+}
+
+.rss-modal > div {
+  height: 100%;
+}
+
+.rss-modal-container > div {
+  height: 100%;
+}
+
+.rss-modal-content {
+  height: 100%;
+}
+
+.rss-modal-content iframe {
+  width: 100%;
+  height: 100%;
+  border: 0 none;
 }
 
 .current-time {

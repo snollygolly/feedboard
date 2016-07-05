@@ -9,6 +9,7 @@ import { grey800 } from "material-ui/styles/colors";
 // components
 import {
 	Card, CardActions, CardHeader, CardText, CardTitle,
+	FlatButton,
 	FontIcon
 } from "material-ui";
 
@@ -34,6 +35,9 @@ class RSSComponent extends React.Component {
 			minHeight: "8rem",
 			position: "relative"
 		};
+		const cardActionsStyle = {
+			textAlign: "right"
+		};
 		return (
 			<Card>
 				<CardHeader
@@ -55,6 +59,15 @@ class RSSComponent extends React.Component {
 						className="rss-card-body"
 					/>
 				</CardText>
+				<CardActions
+					style={ cardActionsStyle }
+				>
+					<FlatButton
+						label="Read More"
+						secondary={ true }
+						onTouchTap={ () => { this.props.handleRSSModalOpen({ title: this.props.data.title, src: this.props.data.link }) } }
+					/>
+				</CardActions>
 			</Card>
 		);
 	}

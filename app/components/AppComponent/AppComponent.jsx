@@ -13,8 +13,10 @@ import { grey50, grey100 } from "material-ui/styles/colors";
 // components
 import {
 	Card, CardTitle,
+	Dialog,
 	MenuItem,
 	Paper,
+	RefreshIndicator,
 	SelectField
 } from "material-ui";
 
@@ -38,6 +40,11 @@ class AppComponent extends React.Component {
 			activity: [],
 			rss: [],
 			rssEnabled: config.site.rss && config.site.rss.length > 0,
+			rssModal: {
+				title: null,
+				src: null,
+				isOpen: false
+			},
     	activeFilter: {
 				activity: "",
 				rss: ""
@@ -95,6 +102,9 @@ class AppComponent extends React.Component {
     this._buildNotification = this._buildNotification.bind(this);
     this._createAlert = this._createAlert.bind(this);
     this._removeAlert = this._removeAlert.bind(this);
+		this._handleRSSModalClose = this._handleRSSModalClose.bind(this);
+		this._handleRSSModalOpen = this._handleRSSModalOpen.bind(this);
+		this._handleRSSModalLoad = this._handleRSSModalLoad.bind(this);
     this._restartReceived = this._restartReceived.bind(this);
     this._buildFilters = this._buildFilters.bind(this);
 		_doFilterSpecific = _doFilterSpecific.bind(this);
@@ -229,6 +239,39 @@ class AppComponent extends React.Component {
 		this.setState({alerts: alerts});
 	}
 
+	_handleRSSModalClose() {
+		const rssModal = this.state.rssModal;
+		rssModal.isOpen = false;
+		rssModal.isLoading = false;
+		rssModal.title = null;
+		rssModal.src = null;
+
+		this.setState({
+			rssModal: rssModal
+		});
+	}
+
+	_handleRSSModalOpen(modalData) {
+		const rssModal = this.state.rssModal;
+		rssModal.isOpen = true;
+		rssModal.isLoading = true;
+		rssModal.title = modalData.title;
+		rssModal.src = modalData.src;
+
+		this.setState({
+			rssModal: rssModal
+		});
+	}
+
+	_handleRSSModalLoad() {
+		const rssModal = this.state.rssModal;
+		rssModal.isLoading = false;
+
+		this.setState({
+			rssModal: rssModal
+		});
+	}
+
 	_restartReceived(data) {
 		let alerts = this.state.alerts;
 		data.type = "info";
@@ -260,9 +303,22 @@ class AppComponent extends React.Component {
 	}
 
 	render() {
+		const contentStyle = {
+			width: "90%",
+			height: "calc(100% - 14.4rem)",
+			maxWidth: "none"
+		};
+		const bodyStyle = {
+			padding: "0px"
+		};
+		const refreshIndicatorStyle = {
+			top: "50%",
+			left: "50%",
+			transform: "translate3d(-50%, -50%, 0px)"
+		};
 		return (
 		  <div className="container-fluid">
-		  	<div id="alert-container" className="row">
+		  	<div className="row alert-container">
 		  		{
 		  			this.state.alerts.map((alert, index) => {
 		  				return (
@@ -275,6 +331,30 @@ class AppComponent extends React.Component {
 		  			})
 		  		}
 		  	</div>
+				{ this.state.rssModal.isOpen ?
+					<Dialog
+						contentStyle={ contentStyle }
+						contentClassName="rss-modal-container"
+						className="rss-modal"
+						bodyStyle={ bodyStyle }
+						bodyClassName="rss-modal-content"
+	          modal={ false }
+	          open={ this.state.rssModal.isOpen }
+	          onRequestClose={ this._handleRSSModalClose.bind(this) }
+	        >
+						<RefreshIndicator
+							size={80}
+							left={0}
+							top={0}
+							status={ this.state.rssModal.isLoading ? "loading" : "hide" }
+							style={ refreshIndicatorStyle }
+						/>
+						<iframe
+							src={ this.state.rssModal.src }
+							onLoad={ this._handleRSSModalLoad.bind(this) }
+						></iframe>
+					</Dialog> : null
+				}
 				<div className="row">
 					<div className={ this.state.rssEnabled ? "col-xs-12 col-md-8 feed-panel" : "col-xs-12 feed-panel" } >
 				  	<div id="filter-container" className="row feed-panel-header">
@@ -353,6 +433,7 @@ class AppComponent extends React.Component {
 											<div key={ index } className="col-xs-12 rss-card-container">
 												<RSSComponent
 													data={ rss_data }
+													handleRSSModalOpen={ this._handleRSSModalOpen }
 												/>
 											</div>
 										);
